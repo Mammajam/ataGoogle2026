@@ -1,0 +1,12 @@
+# Optional Cloud Build. Prefer deploy/*.ps1 from PowerShell.
+steps:
+  - name: gcr.io/cloud-builders/gcloud
+    args:
+      - run
+      - deploy
+      - greenchain-agent
+      - --source
+      - agent
+      - --region
+      - us-central1
+      - --allow-unauthenticated

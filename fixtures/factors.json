@@ -1,0 +1,90 @@
+{
+  "version": "demo-2025",
+  "disclaimer": "Demo factors for the GreenChain hackathon. Values are DESNZ/DEFRA-shaped, not a licensed extract.",
+  "factors": [
+    {
+      "id": "diesel-uk-2025-defra",
+      "activity": "diesel",
+      "scope": 1,
+      "category": null,
+      "unit": "litre",
+      "kgco2e_per_unit": 2.51233,
+      "region": "UK",
+      "year": 2025,
+      "source": "DESNZ/DEFRA 2025",
+      "method": "activity-based"
+    },
+    {
+      "id": "uk-grid-location-2025",
+      "activity": "electricity",
+      "scope": 2,
+      "category": null,
+      "unit": "kWh",
+      "kgco2e_per_unit": 0.20707,
+      "region": "UK",
+      "year": 2025,
+      "source": "DESNZ UK grid 2025 location-based",
+      "method": "location-based"
+    },
+    {
+      "id": "uk-grid-market-2025",
+      "activity": "electricity",
+      "scope": 2,
+      "category": null,
+      "unit": "kWh",
+      "kgco2e_per_unit": 0.0412,
+      "region": "UK",
+      "year": 2025,
+      "source": "Demo residual-mix market-based",
+      "method": "market-based"
+    },
+    {
+      "id": "steel-uk-spend-2025",
+      "activity": "steel_components",
+      "scope": 3,
+      "category": 1,
+      "unit": "gbp",
+      "kgco2e_per_unit": 0.85,
+      "region": "UK",
+      "year": 2025,
+      "source": "EEIO spend-based 2025",
+      "method": "spend-based"
+    },
+    {
+      "id": "lubricants-uk-spend-2025",
+      "activity": "industrial_lubricants",
+      "scope": 3,
+      "category": 1,
+      "unit": "gbp",
+      "kgco2e_per_unit": 0.42,
+      "region": "UK",
+      "year": 2025,
+      "source": "EEIO spend-based 2025",
+      "method": "spend-based"
+    },
+    {
+      "id": "cables-uk-spend-2025",
+      "activity": "electrical_cables",
+      "scope": 3,
+      "category": 1,
+      "unit": "gbp",
+      "kgco2e_per_unit": 0.55,
+      "region": "UK",
+      "year": 2025,
+      "source": "EEIO spend-based 2025",
+      "method": "spend-based"
+    },
+    {
+      "id": "office-uk-spend-2025",
+      "activity": "office_supplies",
+      "scope": 3,
+      "category": 1,
+      "unit": "gbp",
+      "kgco2e_per_unit": 0.31,
+      "region": "UK",
+      "year": 2025,
+      "source": "EEIO spend-based 2025",
+      "method": "spend-based"
+    }
+  ]
+}

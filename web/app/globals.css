@@ -1,0 +1,25 @@
+@import "tailwindcss";
+
+:root {
+  --ink: #14251c;
+  --green: #1b4d3e;
+  --green-2: #2f6f55;
+  --gold: #c4a35a;
+  --cream: #f4efe4;
+  --paper: #fbf8f1;
+  --line: #d9d0bf;
+}
+
+html,
+body {
+  background: var(--cream);
+  color: var(--ink);
+}
+
+body {
+  font-family: "Georgia", "Iowan Old Style", "Times New Roman", serif;
+}
+
+.sans {
+  font-family: "Segoe UI", "Candara", system-ui, sans-serif;
+}

@@ -1,0 +1,7 @@
+{
+  "version": "v0.9",
+  "catalogId": "https://a2ui.org/specification/v0_9/catalogs/basic/catalog.json",
+  "intent": "ExtractionConfirm",
+  "note": "Composed from Card / Column / Text / Button only. Custom catalog widgets are out of scope until memory rerun works.",
+  "surfaceId": "extraction-confirm"
+}

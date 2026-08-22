@@ -1,0 +1,167 @@
+{
+  "company_id": "northwind-energy",
+  "reporting_year": 2025,
+  "planted_conflict": {
+    "line_id": "s2-grid-electricity",
+    "artifact": "electricity_bill.pdf",
+    "field": "unit",
+    "ocr_confidence": 0.7,
+    "reason": "Bill prints 184,200 kWh and also 184.2 MWh equivalent. Taking 184,200 with the MWh label is a 1000x error.",
+    "draft_uses": {
+      "quantity": 184200,
+      "unit": "MWh",
+      "why": "First-run OCR attaches the large integer to the MWh heading. Material (>5% of company total)."
+    },
+    "recommended": {
+      "quantity": 184200,
+      "unit": "kWh",
+      "label": "184,200 kWh (as printed on the meter table)"
+    },
+    "alternate": {
+      "quantity": 184200,
+      "unit": "MWh",
+      "label": "184,200 MWh (OCR unit swap from the MWh-equivalent line)"
+    }
+  },
+  "extractions": {
+    "electricity_bill.pdf": {
+      "kind": "utility_bill",
+      "vendor": "Northern Powergrid",
+      "account": "NPG-88421-NW",
+      "site": "leeds-hq",
+      "period": "2025-01-01/2025-12-31",
+      "quantity": 184200,
+      "unit": "kWh",
+      "unit_alt": "MWh",
+      "quantity_alt_equivalent": 184.2,
+      "confidence": 0.7,
+      "fallback": true
+    },
+    "diesel_receipt.jpg": {
+      "kind": "fuel_receipt",
+      "vendor": "Highland Fuels",
+      "site": "aberdeen-depot",
+      "date": "2025-12-15",
+      "product": "DERV diesel",
+      "quantity": 1240,
+      "unit": "litre",
+      "confidence": 0.93,
+      "fallback": true
+    }
+  },
+  "lines": [
+    {
+      "id": "s1-diesel-fleet",
+      "scope": 1,
+      "category": null,
+      "activity": "Diesel (fleet)",
+      "activity_key": "diesel",
+      "quantity": 12900,
+      "unit": "litre",
+      "tco2e": 32.409,
+      "method": "activity-based",
+      "factor_id": "diesel-uk-2025-defra",
+      "factor_source": "DESNZ/DEFRA 2025",
+      "confidence": 0.92,
+      "source": "erp_export.csv",
+      "source_thumb": "diesel_receipt.jpg",
+      "gap_flag": null,
+      "assumption": null
+    },
+    {
+      "id": "s2-grid-electricity",
+      "scope": 2,
+      "category": null,
+      "activity": "Grid electricity",
+      "activity_key": "electricity",
+      "quantity": 184200,
+      "unit": "MWh",
+      "tco2e": 38142.294,
+      "method": "location-based",
+      "factor_id": "uk-grid-location-2025",
+      "factor_source": "DESNZ UK grid 2025 location-based",
+      "confidence": 0.7,
+      "source": "electricity_bill.pdf",
+      "source_thumb": "electricity_bill.pdf",
+      "gap_flag": "unit_conflict",
+      "assumption": null
+    },
+    {
+      "id": "s3-steel",
+      "scope": 3,
+      "category": 1,
+      "activity": "Steel components",
+      "activity_key": "steel_components",
+      "quantity": 145000,
+      "unit": "gbp",
+      "tco2e": 123.25,
+      "method": "spend-based",
+      "factor_id": "steel-uk-spend-2025",
+      "factor_source": "EEIO spend-based 2025",
+      "confidence": 0.78,
+      "source": "erp_export.csv",
+      "source_thumb": "erp_export.csv",
+      "gap_flag": "assumed_spend",
+      "assumption": "Quantity blank in ERP; conservative spend-based EEIO applied."
+    },
+    {
+      "id": "s3-lubricants",
+      "scope": 3,
+      "category": 1,
+      "activity": "Industrial lubricants",
+      "activity_key": "industrial_lubricants",
+      "quantity": 18400,
+      "unit": "gbp",
+      "tco2e": 7.728,
+      "method": "spend-based",
+      "factor_id": "lubricants-uk-spend-2025",
+      "factor_source": "EEIO spend-based 2025",
+      "confidence": 0.78,
+      "source": "erp_export.csv",
+      "source_thumb": "erp_export.csv",
+      "gap_flag": "assumed_spend",
+      "assumption": "Quantity blank in ERP; conservative spend-based EEIO applied."
+    },
+    {
+      "id": "s3-cables",
+      "scope": 3,
+      "category": 1,
+      "activity": "Electrical cables",
+      "activity_key": "electrical_cables",
+      "quantity": 52000,
+      "unit": "gbp",
+      "tco2e": 28.6,
+      "method": "spend-based",
+      "factor_id": "cables-uk-spend-2025",
+      "factor_source": "EEIO spend-based 2025",
+      "confidence": 0.78,
+      "source": "erp_export.csv",
+      "source_thumb": "erp_export.csv",
+      "gap_flag": "assumed_spend",
+      "assumption": "Quantity blank in ERP; conservative spend-based EEIO applied."
+    },
+    {
+      "id": "s3-office",
+      "scope": 3,
+      "category": 1,
+      "activity": "Office supplies",
+      "activity_key": "office_supplies",
+      "quantity": 6200,
+      "unit": "gbp",
+      "tco2e": 1.922,
+      "method": "spend-based",
+      "factor_id": "office-uk-spend-2025",
+      "factor_source": "EEIO spend-based 2025",
+      "confidence": 0.74,
+      "source": "erp_export.csv",
+      "source_thumb": "erp_export.csv",
+      "gap_flag": "assumed_spend",
+      "assumption": "Immaterial spend; labeled spend-based assumption, no analyst question."
+    }
+  ],
+  "confirmed_electricity_kwh": {
+    "quantity": 184200,
+    "unit": "kWh",
+    "tco2e": 38.142
+  }
+}

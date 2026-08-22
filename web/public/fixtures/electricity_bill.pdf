@@ -1,0 +1,81 @@
+%PDF-1.4
+1 0 obj
+<< /Type /Catalog /Pages 2 0 R >>
+endobj
+2 0 obj
+<< /Type /Pages /Kids [3 0 R] /Count 1 >>
+endobj
+3 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Contents 4 0 R /Resources << /Font << /F1 5 0 R >> >> >>
+endobj
+4 0 obj
+<< /Length 802 >>
+stream
+BT
+/F1 16 Tf
+50 760 Td
+(NORTHERN POWERGRID) Tj
+T*
+/F1 12 Tf
+(Annual electricity statement  2025) Tj
+T*
+/F1 12 Tf
+(Account NPG-88421-NW    Site: Northwind Energy  Leeds HQ) Tj
+T*
+/F1 11 Tf
+(Meter MPAN 23-4521-8821-001) Tj
+T*
+/F1 11 Tf
+() Tj
+T*
+/F1 11 Tf
+(Metered consumption table) Tj
+T*
+/F1 11 Tf
+(  184,200 kWh   \(as registered on the settlement meter\)) Tj
+T*
+/F1 11 Tf
+() Tj
+T*
+/F1 11 Tf
+(Equivalent heading \(do not use for inventory\):) Tj
+T*
+/F1 11 Tf
+(  Consumption \(MWh equivalent\)    184.2 MWh) Tj
+T*
+/F1 11 Tf
+() Tj
+T*
+/F1 11 Tf
+(Period 01 Jan 2025  -  31 Dec 2025) Tj
+T*
+/F1 11 Tf
+(Tariff  Business HH  |  Net  7,920.00 GBP) Tj
+T*
+/F1 11 Tf
+() Tj
+T*
+/F1 11 Tf
+(OCR TRAP: 184200 next to a MWh label is a 1000x unit error.) Tj
+T*
+/F1 11 Tf
+(Correct inventory quantity is 184,200 kWh.) Tj
+ET
+endstream
+endobj
+5 0 obj
+<< /Type /Font /Subtype /Type1 /BaseFont /Courier >>
+endobj
+xref
+0 6
+0000000000 65535 f 
+0000000009 00000 n 
+0000000058 00000 n 
+0000000115 00000 n 
+0000000241 00000 n 
+0000001094 00000 n 
+trailer
+<< /Size 6 /Root 1 0 R >>
+startxref
+1162
+%%EOF
