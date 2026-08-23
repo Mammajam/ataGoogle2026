@@ -69,7 +69,7 @@ function RenderNode({
 
   if (kind === "Card") {
     return (
-      <div className="rounded-xl border border-[#c4a35a] bg-white p-4 shadow-sm">
+      <div className="rounded-lg border border-border bg-background p-4 shadow-sm">
         {typeof node.child === "string" ? (
           <RenderNode id={node.child} nodes={nodes} model={model} onAction={onAction} />
         ) : null}
@@ -105,7 +105,7 @@ function RenderNode({
     const text = resolveText(node.text, model);
     if (!text) return null;
     const cls =
-      variant === "h2" ? "text-xl text-[#1b4d3e]" : "sans text-sm leading-relaxed text-[#3d4a42]";
+      variant === "h2" ? "text-xl font-semibold text-foreground" : "text-sm leading-relaxed text-muted-foreground";
     return <p className={cls}>{text}</p>;
   }
 
@@ -126,10 +126,10 @@ function RenderNode({
             context: (event.context || {}) as Record<string, unknown>,
           })
         }
-        className={`sans rounded-lg px-3 py-2 text-left text-sm font-semibold ${
+        className={`rounded-full px-4 py-2.5 text-left text-sm font-semibold transition ${
           primary
-            ? "bg-[#1b4d3e] text-white hover:bg-[#14251c]"
-            : "border border-[#d9d0bf] bg-[#f4efe4] text-[#14251c] hover:border-[#1b4d3e]"
+            ? "bg-primary text-primary-foreground shadow-sm hover:opacity-90"
+            : "bg-accent text-accent-foreground hover:bg-accent/80"
         }`}
       >
         {label}
@@ -140,7 +140,7 @@ function RenderNode({
   if (kind === "TextField") {
     return (
       <input
-        className="sans w-full rounded border border-[#d9d0bf] px-2 py-1 text-sm"
+        className="w-full rounded-sm border border-border bg-input px-3 py-2 text-sm"
         defaultValue={resolveText(node.value, model)}
         readOnly
       />
@@ -164,11 +164,14 @@ export function A2uiSurface({ messages, widget, busy, onConfirm }: Props) {
   };
 
   return (
-    <section className="rounded-2xl border border-[#d9d0bf] bg-[#fbf8f1] p-5 shadow-sm">
-      <h2 className="sans text-sm font-semibold tracking-wide text-[#1b4d3e] uppercase">
+    <section id="collaboration" className="relative rounded-xl bg-background p-6 shadow-md">
+      <p className="font-serif text-6xl leading-none text-muted" aria-hidden>
+        “
+      </p>
+      <h2 className="mt-2 text-sm font-semibold tracking-wide text-foreground uppercase">
         Collaboration (A2UI)
       </h2>
-      <p className="sans mt-1 text-xs text-[#5c6b62]">
+      <p className="mt-1 text-xs text-muted-foreground">
         Widgets only for material gaps. Chat is the transcript, not the product.
       </p>
       <div className="mt-4">
@@ -180,11 +183,11 @@ export function A2uiSurface({ messages, widget, busy, onConfirm }: Props) {
             onAction={(event) => emit(event.context)}
           />
         ) : widget ? (
-          <div className="rounded-xl border border-[#c4a35a] bg-white p-4">
-            <p className="text-xl text-[#1b4d3e]">Extraction confirm — kWh vs MWh</p>
-            <p className="sans mt-2 text-sm text-[#3d4a42]">
-              Vision is 70% sure the bill is 184,200 kWh, not 184,200 MWh. Confirming
-              recalculates the line.
+          <div className="rounded-lg border border-border bg-card p-4">
+            <p className="text-xl font-semibold text-foreground">Extraction confirm — kWh vs MWh</p>
+            <p className="mt-2 text-sm text-muted-foreground">
+              Vision is 70% sure the bill is 184,200 kWh, not 184,200 MWh. Confirming recalculates
+              the line.
             </p>
             <div className="mt-4 flex flex-col gap-2">
               <button
@@ -198,7 +201,7 @@ export function A2uiSurface({ messages, widget, busy, onConfirm }: Props) {
                     unit: widget.recommended.unit,
                   })
                 }
-                className="sans rounded-lg bg-[#1b4d3e] px-3 py-2 text-left text-sm font-semibold text-white"
+                className="rounded-full bg-primary px-4 py-2.5 text-left text-sm font-semibold text-primary-foreground shadow-sm transition hover:opacity-90 disabled:opacity-60"
               >
                 Confirm {widget.recommended.quantity.toLocaleString()} {widget.recommended.unit} →{" "}
                 {widget.recommended_tco2e.toFixed(3)} tCO₂e
@@ -214,7 +217,7 @@ export function A2uiSurface({ messages, widget, busy, onConfirm }: Props) {
                     unit: widget.alternate.unit,
                   })
                 }
-                className="sans rounded-lg border border-[#d9d0bf] bg-[#f4efe4] px-3 py-2 text-left text-sm font-semibold"
+                className="rounded-full bg-accent px-4 py-2.5 text-left text-sm font-semibold text-accent-foreground transition hover:bg-accent/80 disabled:opacity-60"
               >
                 Use {widget.alternate.quantity.toLocaleString()} {widget.alternate.unit} →{" "}
                 {widget.alternate_tco2e.toFixed(3)} tCO₂e
@@ -222,7 +225,7 @@ export function A2uiSurface({ messages, widget, busy, onConfirm }: Props) {
             </div>
           </div>
         ) : (
-          <p className="text-sm text-[#5c6b62]">No material gap. The agent is not asking.</p>
+          <p className="text-sm text-muted-foreground">No material gap. The agent is not asking.</p>
         )}
       </div>
     </section>
