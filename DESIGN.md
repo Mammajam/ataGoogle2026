@@ -11,7 +11,7 @@ This design system is built on **Tailwind CSS v4** paired with a **shadcn/ui** s
 ### Key Technical Pillars
 * **Tailwind v4 First-Class Support**: Built using native CSS `@import 'tailwindcss';` and `@theme inline` declarations, eliminating legacy JavaScript config files (`tailwind.config.js`) in favor of direct CSS variable mapping.
 * **OKLCH Color Space**: All palette primitives and semantic variables are expressed in the `oklch()` color model (Lightness, Chroma, Hue), ensuring predictable contrast calculation, smooth color transitions, and vibrant tones across light and dark modes.
-* **Scoped Dark Mode**: Dark mode is controlled via custom CSS scoping using `@custom-variant dark (&:is(.dark *));`.
+* **Scoped Dark Mode**: Dark tokens live on `.dark`. Tailwind `dark:` utilities resolve with `@custom-variant dark (&:is(.dark *));`. The `html` element receives `.dark` from a blocking bootstrap script plus a header control. Default preference is **system** (`prefers-color-scheme`).
 * **Micro-Interactions**: Integrated with `tailwindcss-animate` for fluid state transitions and dynamic loading fallbacks.
 
 ---
@@ -26,37 +26,37 @@ The color palette is divided into two operational layers: **Core System Tokens**
 
 | Token Name | Light Mode (OKLCH) | Dark Mode (OKLCH) | Purpose / Usage |
 | :--- | :--- | :--- | :--- |
-| `--background` | `oklch(1.00 0 0)` | `oklch(0 0 0)` | Canvas background |
-| `--foreground` | `oklch(0.19 0.01 248.51)` | `oklch(0.93 0.00 228.79)` | Primary text and structural icon color |
-| `--card` | `oklch(0.98 0.00 197.14)` | `oklch(0.21 0.01 274.53)` | Surfaces, cards, modal panels |
-| `--card-foreground` | `oklch(0.19 0.01 248.51)` | `oklch(0.89 0 0)` | Text content on card surfaces |
-| `--popover` | `oklch(1.00 0 0)` | `oklch(0 0 0)` | Floating menus, tooltips, dropdowns |
-| `--popover-foreground` | `oklch(0.19 0.01 248.51)` | `oklch(0.93 0.00 228.79)` | Content inside popovers |
+| `--background` | `oklch(1.00 0 0)` | `oklch(0.10 0.02 238.40)` | Canvas background |
+| `--foreground` | `oklch(0.19 0.01 248.51)` | `oklch(0.95 0.01 236.56)` | Primary text and structural icon color |
+| `--card` | `oklch(0.98 0.00 197.14)` | `oklch(0.16 0.02 240.00)` | Surfaces, cards, modal panels |
+| `--card-foreground` | `oklch(0.19 0.01 248.51)` | `oklch(0.95 0.01 236.56)` | Text content on card surfaces |
+| `--popover` | `oklch(1.00 0 0)` | `oklch(0.18 0.02 240.00)` | Floating menus, tooltips, dropdowns |
+| `--popover-foreground` | `oklch(0.19 0.01 248.51)` | `oklch(0.95 0.01 236.56)` | Content inside popovers |
 | `--primary` | `oklch(0.77 0.21 148.67)` | `oklch(0.77 0.21 148.67)` | Primary action buttons, active states |
 | `--primary-foreground` | `oklch(0.15 0.00 0)` | `oklch(0.15 0.00 0)` | Text/icons rendered over `--primary` |
-| `--secondary` | `oklch(0.19 0.01 248.51)` | `oklch(0.96 0.00 219.53)` | Secondary action controls, subtle badges |
-| `--secondary-foreground` | `oklch(1.00 0 0)` | `oklch(0.19 0.01 248.51)` | Text/icons rendered over `--secondary` |
-| `--muted` | `oklch(0.92 0.00 286.37)` | `oklch(0.21 0 0)` | Disabled backgrounds, table striping, faint fills |
-| `--muted-foreground` | `oklch(0.19 0.01 248.51)` | `oklch(0.56 0.01 247.97)` | De-emphasized caption text, placeholders |
-| `--accent` | `oklch(0.94 0.03 148.67)` | `oklch(0.19 0.04 148.67)` | Hover highlights, quiet selection states |
+| `--secondary` | `oklch(0.19 0.01 248.51)` | `oklch(0.20 0.02 241.00)` | Secondary action controls, subtle badges |
+| `--secondary-foreground` | `oklch(1.00 0 0)` | `oklch(0.95 0.01 236.56)` | Text/icons rendered over `--secondary` |
+| `--muted` | `oklch(0.92 0.00 286.37)` | `oklch(0.18 0.02 240.00)` | Disabled backgrounds, table striping, faint fills |
+| `--muted-foreground` | `oklch(0.50 0.01 248.51)` | `oklch(0.68 0.01 240.00)` | De-emphasized caption text, placeholders |
+| `--accent` | `oklch(0.94 0.03 148.67)` | `oklch(0.22 0.05 148.67)` | Hover highlights, quiet selection states |
 | `--accent-foreground` | `oklch(0.45 0.13 148.67)` | `oklch(0.77 0.21 148.67)` | Text/icons on accent elements |
 | `--destructive` | `oklch(0.62 0.24 25.77)` | `oklch(0.62 0.24 25.77)` | Error states, dangerous actions, delete controls |
 | `--destructive-foreground` | `oklch(1.00 0 0)` | `oklch(1.00 0 0)` | Text/icons on destructive buttons |
-| `--border` | `oklch(0.93 0.01 231.66)` | `oklch(0.27 0.00 248.00)` | Divider lines, card outlines, input borders |
-| `--input` | `oklch(0.98 0.00 228.78)` | `oklch(0.30 0.03 244.82)` | Form field element fill |
+| `--border` | `oklch(0.93 0.01 231.66)` | `oklch(0.28 0.02 238.00)` | Divider lines, card outlines, input borders |
+| `--input` | `oklch(0.98 0.00 228.78)` | `oklch(0.18 0.02 241.00)` | Form field element fill |
 | `--ring` | `oklch(0.69 0.19 148.67)` | `oklch(0.69 0.19 148.67)` | Focus rings and outline indicators |
 
 ### 2.2 Sidebar Specific Palette
 
 | Token Name | Light Mode (OKLCH) | Dark Mode (OKLCH) | Usage |
 | :--- | :--- | :--- | :--- |
-| `--sidebar` | `oklch(0.98 0.00 197.14)` | `oklch(0.21 0.01 274.53)` | Nav container background |
-| `--sidebar-foreground` | `oklch(0.19 0.01 248.51)` | `oklch(0.89 0 0)` | Navigation text and icons |
+| `--sidebar` | `oklch(0.98 0.00 197.14)` | `oklch(0.16 0.02 240.00)` | Nav container background |
+| `--sidebar-foreground` | `oklch(0.19 0.01 248.51)` | `oklch(0.95 0.01 236.56)` | Navigation text and icons |
 | `--sidebar-primary` | `oklch(0.77 0.21 148.67)` | `oklch(0.77 0.21 148.67)` | Active navigation item indicator |
 | `--sidebar-primary-foreground` | `oklch(0.15 0.00 0)` | `oklch(0.15 0.00 0)` | Text on active navigation item |
-| `--sidebar-accent` | `oklch(0.94 0.03 148.67)` | `oklch(0.19 0.04 148.67)` | Hover state for nav items |
+| `--sidebar-accent` | `oklch(0.94 0.03 148.67)` | `oklch(0.22 0.05 148.67)` | Hover state for nav items |
 | `--sidebar-accent-foreground` | `oklch(0.45 0.13 148.67)` | `oklch(0.77 0.21 148.67)` | Text color on hovered nav items |
-| `--sidebar-border` | `oklch(0.93 0.01 238.52)` | `oklch(0.38 0.02 240.59)` | Sidebar structural separator |
+| `--sidebar-border` | `oklch(0.93 0.01 238.52)` | `oklch(0.28 0.02 238.00)` | Sidebar structural separator |
 | `--sidebar-ring` | `oklch(0.69 0.19 148.67)` | `oklch(0.69 0.19 148.67)` | Sidebar interactive focus ring |
 
 ### 2.3 Data Visualization / Charting Palette
@@ -68,6 +68,18 @@ The color palette is divided into two operational layers: **Core System Tokens**
 | `--chart-3` | `oklch(0.82 0.16 82.53)` | Warm Amber |
 | `--chart-4` | `oklch(0.69 0.16 160.35)` | Vibrant Teal |
 | `--chart-5` | `oklch(0.59 0.22 10.58)` | Deep Red / Coral |
+
+### 2.4 Theme Resolution (System / Light / Dark)
+
+Dark mode is not a media-query-only stylesheet. Preference is stored and applied as follows:
+
+* **Key**: `localStorage["greenchain.theme"]` with values `system` | `light` | `dark`. Missing key means `system`.
+* **System**: follow `prefers-color-scheme`. Re-apply when the OS theme changes.
+* **Resolved appearance**: add or remove class `dark` on `html`. Set `color-scheme` to `light` or `dark` so native controls match.
+* **FOUC**: a blocking inline script in the root layout runs before paint and mirrors the same resolution rules.
+* **Control**: header segmented pill (sun / system / moon). The selected segment is the *preference*, not only the resolved colors — choosing **system** stays selected while the canvas still tracks the OS. The control uses `--card`, `--border`, `--primary`, and `--muted-foreground` so it is readable in both appearances.
+
+Dark OKLCH values in §2.1–2.2 are sampled from `docs/GreenChain.png` (near-black canvas `#000409`, charcoal panels, Spotify-green CTAs) while keeping the same token names as light mode.
 
 ---
 
@@ -149,7 +161,8 @@ The target UI is a **mobile-inspired, high-radius marketing/workspace shell**: c
 
 ### 7.1 Page Canvas
 
-* Full-bleed `--background` (white in light mode). No cream, paper, or editorial serif wash.
+* Full-bleed `--background` (white in light mode; near-black in dark). No cream, paper, or editorial serif wash.
+* Dark canvas (see §7.8): faint square grid plus a Spotify-green radial bloom at the top-left. The bloom is a `body` background image, not a tokenized fill — keep workspace wrappers transparent so it shows through.
 * Vertical scroll with a single column of stacked sections; inner content max-width is centered with large horizontal padding.
 * Default type is `--font-sans` (Open Sans). Serif is reserved for quotes only.
 
@@ -157,8 +170,8 @@ The target UI is a **mobile-inspired, high-radius marketing/workspace shell**: c
 
 * Left: wordmark in `--foreground` sans, medium weight.
 * Center: quiet text links (`--muted-foreground` after the section 6 contrast fix) for in-page anchors.
-* Right: ghost text control + one pill primary CTA (`--primary` fill, `--primary-foreground` label, `--radius-xl` corners).
-* Header sits on the same white canvas; no heavy bar, no colored brand strip.
+* Right: theme segmented pill (system-aware) + optional memory chip + one pill primary CTA (`--primary` fill, `--primary-foreground` label, `--radius-xl` corners). Dark primary CTAs may use a soft green glow (`.glow-primary`).
+* Header sits on the same canvas as the page; no heavy bar, no colored brand strip.
 
 ### 7.3 Hero / Lead Block
 
@@ -192,7 +205,7 @@ Apply the same geometry and tokens to the analyst workspace (not a marketing clo
 
 | GreenChain surface | Treatment |
 | :--- | :--- |
-| Workspace chrome | White canvas, sans wordmark, pill **Run audit** as the only primary CTA |
+| Workspace chrome | Token canvas, sans wordmark, system-aware theme pill, **Run audit** as the only primary CTA |
 | Period pack dropzone | `--card` well, dashed `--border`, `--radius-xl`; demo-pack chip as a small white overlay |
 | Inventory table | `--card` + `--shadow-md`; striped rows with `--muted`; numeric cells in `--font-mono` |
 | Material / A2UI gate | Right-column card matching the testimonial treatment; confirm buttons use primary / secondary pills |
@@ -200,6 +213,18 @@ Apply the same geometry and tokens to the analyst workspace (not a marketing clo
 | Destructive / failed run | `--destructive` text or button; never primary green |
 | Scope / tCO₂e series | `--chart-1` … `--chart-5` if a breakdown chart is added |
 
-### 7.8 Do Not Carry Forward
+### 7.8 Dark Workspace (`docs/GreenChain.png`)
+
+Dark mode is the promotional shell in `docs/GreenChain.png`, expressed with the §2 tokens rather than hex one-offs:
+
+* **Canvas**: `--background` near-black with a cool teal cast; 48px hairline grid at `oklch(1 0 0 / 0.035)`; radial `--primary` bloom from the top-left.
+* **Panels**: `--card` charcoal, `--radius-xl`, hairline `--border`. Shadows recede; borders do the work.
+* **Type**: titles `--foreground` (near-white); captions `--muted-foreground`.
+* **Primary**: same Spotify Green as light mode, near-black labels, optional `.glow-primary` on the main CTA.
+* **Policy chip**: `--accent` fill, `--accent-foreground` (green) label, optional `--primary` hairline — matches the mockup “Policy applied” pill.
+* **Confirm / A2UI**: elevated `--card` or `--popover`, not a second black hole on `--background`.
+* Do not introduce a separate neon hex; glow is `color-mix` of `--primary`.
+
+### 7.9 Do Not Carry Forward
 
 The previous `web/app/globals.css` cream/green/gold/Georgia tokens (`--cream`, `--green`, `--gold`, `--ink`) are superseded by this document. Brand green lives only on `--primary` / `--accent` / `--chart-1` (Spotify Green), never as a separate `--green` primitive. Do not mix those old primitives with the OKLCH semantic set.

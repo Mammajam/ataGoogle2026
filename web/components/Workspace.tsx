@@ -7,6 +7,7 @@ import { A2uiSurface } from "./A2uiSurface";
 import { Dropzone } from "./Dropzone";
 import { InventoryTable } from "./InventoryTable";
 import { MemoryChip } from "./MemoryChip";
+import { ThemeToggle } from "./ThemeToggle";
 
 const PROFILE_KEY = "greenchain.company.v1";
 
@@ -158,7 +159,7 @@ export function Workspace() {
   }
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen">
       <header className="mx-auto flex max-w-6xl flex-wrap items-center justify-between gap-4 px-6 py-5">
         <a href="#workspace" className="text-lg font-semibold text-foreground">
           GreenChain
@@ -175,12 +176,13 @@ export function Workspace() {
           </a>
         </nav>
         <div className="flex items-center gap-3">
+          <ThemeToggle />
           <MemoryChip visible={chipVisible} keys={chipKeys} />
           <button
             type="button"
             onClick={onRun}
             disabled={!canRun}
-            className="rounded-full bg-primary px-5 py-2.5 text-sm font-semibold text-primary-foreground shadow-md transition hover:opacity-90 disabled:opacity-60"
+            className="glow-primary rounded-full bg-primary px-5 py-2.5 text-sm font-semibold text-primary-foreground shadow-md transition hover:opacity-90 disabled:opacity-60"
           >
             {busy ? "Running close…" : "Run audit"}
           </button>
@@ -243,7 +245,7 @@ export function Workspace() {
                 type="button"
                 onClick={onRun}
                 disabled={!canRun}
-                className="inline-flex items-center gap-2 rounded-full bg-primary px-6 py-3 text-sm font-semibold text-primary-foreground shadow-md transition hover:opacity-90 disabled:opacity-60"
+                className="glow-primary inline-flex items-center gap-2 rounded-full bg-primary px-6 py-3 text-sm font-semibold text-primary-foreground shadow-md transition hover:opacity-90 disabled:opacity-60"
               >
                 {busy ? "Running close…" : "Run audit"}
                 <ArrowIcon />
@@ -255,7 +257,7 @@ export function Workspace() {
 
         <section className="grid gap-5 py-8 md:grid-cols-3">
           {FEATURES.map((feature) => (
-            <article key={feature.title} className="rounded-xl bg-card p-6 shadow-md">
+            <article key={feature.title} className="rounded-xl border border-border bg-card p-6 shadow-md">
               <div className={`flex h-12 w-12 items-center justify-center rounded-full ${feature.tone}`}>
                 {feature.icon}
               </div>
@@ -279,7 +281,7 @@ export function Workspace() {
           />
         </div>
 
-        <section className="mt-5 rounded-xl bg-card p-5 text-xs text-muted-foreground shadow-sm">
+        <section className="mt-5 rounded-xl border border-border bg-card p-5 text-xs text-muted-foreground shadow-sm">
           <div className="mb-2 font-semibold uppercase tracking-wide text-foreground">Job log</div>
           {events.length === 0 ? (
             <p>Events stream here while Run audit is in flight.</p>

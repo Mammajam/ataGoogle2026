@@ -10,7 +10,7 @@ const ACCEPT = ".csv,.pdf,.jpg,.jpeg,.png,.webp";
 
 export function Dropzone({ files, onFiles, erpLive = false }: Props) {
   return (
-    <section className="relative overflow-hidden rounded-xl bg-card p-5 shadow-lg">
+    <section className="relative overflow-hidden rounded-xl border border-border bg-card p-5 shadow-lg">
       <div className="mb-3 flex items-baseline justify-between gap-3">
         <h2 className="text-sm font-semibold tracking-wide text-foreground uppercase">Period pack</h2>
         <span className="text-xs text-muted-foreground">CSV · PDF · JPG/PNG/WebP</span>

@@ -129,7 +129,7 @@ function RenderNode({
         }
         className={`rounded-full px-4 py-2.5 text-left text-sm font-semibold transition ${
           primary
-            ? "bg-primary text-primary-foreground shadow-sm hover:opacity-90"
+            ? "glow-primary bg-primary text-primary-foreground shadow-sm hover:opacity-90"
             : "bg-accent text-accent-foreground hover:bg-accent/80"
         }`}
       >
@@ -165,7 +165,7 @@ export function A2uiSurface({ messages, widget, busy, onConfirm }: Props) {
   };
 
   return (
-    <section id="collaboration" className="relative rounded-xl bg-background p-6 shadow-md">
+    <section id="collaboration" className="relative rounded-xl border border-border bg-card p-6 shadow-md">
       <p className="font-serif text-6xl leading-none text-muted" aria-hidden>
         “
       </p>
@@ -204,7 +204,7 @@ export function A2uiSurface({ messages, widget, busy, onConfirm }: Props) {
                     unit: widget.recommended.unit,
                   })
                 }
-                className="rounded-full bg-primary px-4 py-2.5 text-left text-sm font-semibold text-primary-foreground shadow-sm transition hover:opacity-90 disabled:opacity-60"
+                className="glow-primary rounded-full bg-primary px-4 py-2.5 text-left text-sm font-semibold text-primary-foreground shadow-sm transition hover:opacity-90 disabled:opacity-60"
               >
                 Confirm {widget.recommended.quantity.toLocaleString()} {widget.recommended.unit} →{" "}
                 {widget.recommended_tco2e.toFixed(3)} tCO₂e

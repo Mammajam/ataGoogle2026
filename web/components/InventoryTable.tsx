@@ -31,7 +31,7 @@ function isRenderableDraft(draft: Draft | null): draft is Draft {
 export function InventoryTable({ draft, busy }: { draft: Draft | null; busy?: boolean }) {
   if (!isRenderableDraft(draft)) {
     return (
-      <section id="inventory" className="rounded-xl bg-card p-6 shadow-md">
+      <section id="inventory" className="rounded-xl border border-border bg-card p-6 shadow-md">
         <h2 className="text-sm font-semibold tracking-wide text-foreground uppercase">
           GHG draft inventory
         </h2>
@@ -53,7 +53,7 @@ export function InventoryTable({ draft, busy }: { draft: Draft | null; busy?: bo
   const runId = draft.run_id;
 
   return (
-    <section id="inventory" className="rounded-xl bg-card p-6 shadow-md">
+    <section id="inventory" className="rounded-xl border border-border bg-card p-6 shadow-md">
       <div className="mb-4 flex flex-wrap items-end justify-between gap-3">
         <div>
           <h2 className="text-sm font-semibold tracking-wide text-foreground uppercase">

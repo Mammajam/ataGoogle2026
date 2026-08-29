@@ -39,37 +39,37 @@
 }
 
 .dark {
-  --background: oklch(0 0 0);
-  --foreground: oklch(0.93 0 228.79);
-  --card: oklch(0.21 0.01 274.53);
-  --card-foreground: oklch(0.89 0 0);
-  --popover: oklch(0 0 0);
-  --popover-foreground: oklch(0.93 0 228.79);
+  --background: oklch(0.1 0.02 238.4);
+  --foreground: oklch(0.95 0.01 236.56);
+  --card: oklch(0.16 0.02 240);
+  --card-foreground: oklch(0.95 0.01 236.56);
+  --popover: oklch(0.18 0.02 240);
+  --popover-foreground: oklch(0.95 0.01 236.56);
   --primary: oklch(0.77 0.21 148.67);
   --primary-foreground: oklch(0.15 0 0);
-  --secondary: oklch(0.96 0 219.53);
-  --secondary-foreground: oklch(0.19 0.01 248.51);
-  --muted: oklch(0.21 0 0);
-  --muted-foreground: oklch(0.56 0.01 247.97);
-  --accent: oklch(0.19 0.04 148.67);
+  --secondary: oklch(0.2 0.02 241);
+  --secondary-foreground: oklch(0.95 0.01 236.56);
+  --muted: oklch(0.18 0.02 240);
+  --muted-foreground: oklch(0.68 0.01 240);
+  --accent: oklch(0.22 0.05 148.67);
   --accent-foreground: oklch(0.77 0.21 148.67);
   --destructive: oklch(0.62 0.24 25.77);
   --destructive-foreground: oklch(1 0 0);
-  --border: oklch(0.27 0 248);
-  --input: oklch(0.3 0.03 244.82);
+  --border: oklch(0.28 0.02 238);
+  --input: oklch(0.18 0.02 241);
   --ring: oklch(0.69 0.19 148.67);
   --chart-1: oklch(0.77 0.21 148.67);
   --chart-2: oklch(0.67 0.16 245);
   --chart-3: oklch(0.82 0.16 82.53);
   --chart-4: oklch(0.69 0.16 160.35);
   --chart-5: oklch(0.59 0.22 10.58);
-  --sidebar: oklch(0.21 0.01 274.53);
-  --sidebar-foreground: oklch(0.89 0 0);
+  --sidebar: oklch(0.16 0.02 240);
+  --sidebar-foreground: oklch(0.95 0.01 236.56);
   --sidebar-primary: oklch(0.77 0.21 148.67);
   --sidebar-primary-foreground: oklch(0.15 0 0);
-  --sidebar-accent: oklch(0.19 0.04 148.67);
+  --sidebar-accent: oklch(0.22 0.05 148.67);
   --sidebar-accent-foreground: oklch(0.77 0.21 148.67);
-  --sidebar-border: oklch(0.38 0.02 240.59);
+  --sidebar-border: oklch(0.28 0.02 238);
   --sidebar-ring: oklch(0.69 0.19 148.67);
 }
 
@@ -126,6 +126,14 @@
     @apply border-border outline-ring/50;
   }
 
+  html {
+    color-scheme: light;
+  }
+
+  html.dark {
+    color-scheme: dark;
+  }
+
   html,
   body {
     margin: 0;
@@ -135,6 +143,17 @@
 
   body {
     @apply bg-background font-sans text-foreground;
+    min-height: 100vh;
+  }
+
+  .dark body {
+    background-color: var(--background);
+    background-image:
+      radial-gradient(ellipse 80% 60% at 0% 0%, color-mix(in oklch, var(--primary) 22%, transparent), transparent 58%),
+      linear-gradient(oklch(1 0 0 / 0.035) 1px, transparent 1px),
+      linear-gradient(90deg, oklch(1 0 0 / 0.035) 1px, transparent 1px);
+    background-size: auto, 48px 48px, 48px 48px;
+    background-attachment: fixed;
   }
 }
 
@@ -156,4 +175,8 @@
 .dark .broken-image-fallback {
   background: #1f2937;
   border-color: #374151;
+}
+
+.dark .glow-primary {
+  box-shadow: 0 0 28px color-mix(in oklch, var(--primary) 40%, transparent);
 }

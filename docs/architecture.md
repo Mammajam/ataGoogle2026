@@ -2,6 +2,8 @@
 
 Judge-facing stack for **The Collaborative Partner**. One job, not a chatbot: the left column finishes the close; the right column is a single material gate; Firestore (or the local file store) is the notebook.
 
+Poster for Devpost: [architecture.png](architecture.png).
+
 ```mermaid
 sequenceDiagram
   participant UI as Workspace
