@@ -189,6 +189,12 @@ Do **not** expect a draft if company id is blank or no files are dropped (unless
 
 Health while the agent is up: `GET http://localhost:8080/health` → `ok: true`, `service: greenchain-audit-lead`.
 
+## Vercel (web workspace)
+
+The Next.js app lives in `web/`, not the repo root. In the Vercel project: **Settings → General → Root Directory** must be `web`. Connecting GitHub without that setting makes the build look at the repo root, miss `next` in `package.json`, and fail with “No Next.js version detected.”
+
+The production project `greenchain` is linked to `Mammajam/ataGoogle2026` on `main`. Set `AGENT_URL` (and CORS on the agent) in Vercel env vars.
+
 ## Cloud Run
 
 Requires the Google Cloud SDK (`gcloud`) on PATH.

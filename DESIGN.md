@@ -163,6 +163,7 @@ The target UI is a **mobile-inspired, high-radius marketing/workspace shell**: c
 
 * Full-bleed `--background` (white in light mode; near-black in dark). No cream, paper, or editorial serif wash.
 * Dark canvas (see §7.8): faint square grid plus a Spotify-green radial bloom at the top-left. The bloom is a `body` background image, not a tokenized fill — keep workspace wrappers transparent so it shows through.
+* Pointer glow: a `pointer-events: none` radial of `--primary` that trails the cursor (`transition` on `transform`). Hidden when `prefers-reduced-motion` or when there is no fine hover pointer. Softer in light mode; stronger in dark.
 * Vertical scroll with a single column of stacked sections; inner content max-width is centered with large horizontal padding.
 * Default type is `--font-sans` (Open Sans). Serif is reserved for quotes only.
 

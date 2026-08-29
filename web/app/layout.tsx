@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Open_Sans } from "next/font/google";
 import "./globals.css";
 import { THEME_BOOTSTRAP } from "@/lib/theme";
+import { CursorGlow } from "@/components/CursorGlow";
 
 const openSans = Open_Sans({
   subsets: ["latin"],
@@ -26,7 +27,10 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <head>
         <script dangerouslySetInnerHTML={{ __html: THEME_BOOTSTRAP }} />
       </head>
-      <body className="min-h-screen antialiased">{children}</body>
+      <body className="min-h-screen antialiased">
+        <CursorGlow />
+        {children}
+      </body>
     </html>
   );
 }

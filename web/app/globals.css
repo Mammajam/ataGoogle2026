@@ -180,3 +180,44 @@
 .dark .glow-primary {
   box-shadow: 0 0 28px color-mix(in oklch, var(--primary) 40%, transparent);
 }
+
+.cursor-glow {
+  pointer-events: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 40;
+  width: 28rem;
+  height: 28rem;
+  margin: -14rem 0 0 -14rem;
+  border-radius: 50%;
+  opacity: 0;
+  background: radial-gradient(
+    circle,
+    color-mix(in oklch, var(--primary) 16%, transparent),
+    transparent 68%
+  );
+  transform: translate3d(-100vw, -100vh, 0);
+  transition:
+    transform 140ms ease-out,
+    opacity 220ms ease-out;
+  will-change: transform;
+}
+
+.cursor-glow.is-on {
+  opacity: 1;
+}
+
+.dark .cursor-glow {
+  background: radial-gradient(
+    circle,
+    color-mix(in oklch, var(--primary) 34%, transparent),
+    transparent 68%
+  );
+}
+
+@media (hover: none), (prefers-reduced-motion: reduce) {
+  .cursor-glow {
+    display: none;
+  }
+}
