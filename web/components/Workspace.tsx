@@ -1,19 +1,26 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
-import { confirmExtraction, getMemory, runAudit } from "@/lib/agent-client";
-import type { ConfirmPayload, Draft } from "@/lib/types";
+import { confirmExtraction, getAgentHealth, getMemory, runAudit } from "@/lib/agent-client";
+import type { AuditEvent, CompanyProfile, ConfirmPayload, Draft } from "@/lib/types";
 import { A2uiSurface } from "./A2uiSurface";
 import { Dropzone } from "./Dropzone";
 import { InventoryTable } from "./InventoryTable";
 import { MemoryChip } from "./MemoryChip";
 
-const COMPANY = "northwind-energy";
+const PROFILE_KEY = "greenchain.company.v1";
+
+const DEFAULT_PROFILE: CompanyProfile = {
+  company_id: "",
+  company_name: "",
+  reporting_year: new Date().getFullYear(),
+  region: "UK",
+};
 
 const FEATURES = [
   {
     title: "Autonomous draft",
-    body: "ERP, bill, and receipt become a complete inventory before anyone types.",
+    body: "Any conforming CSV, bill, and receipt become an inventory before anyone types.",
     tone: "bg-primary/15 text-primary",
     icon: (
       <svg viewBox="0 0 24 24" className="h-5 w-5" fill="none" stroke="currentColor" strokeWidth="1.8">
@@ -24,7 +31,7 @@ const FEATURES = [
   },
   {
     title: "Material gate",
-    body: "A2UI appears only for the planted kWh/MWh conflict — never as a chat first.",
+    body: "A2UI appears only when two readings would move company tCO₂e by more than 5%.",
     tone: "bg-accent text-accent-foreground",
     icon: (
       <svg viewBox="0 0 24 24" className="h-5 w-5" fill="none" stroke="currentColor" strokeWidth="1.8">
@@ -35,7 +42,7 @@ const FEATURES = [
   },
   {
     title: "Company memory",
-    body: "Confirm once. The next close applies the unit policy silently.",
+    body: "Confirm once. The next close for this company applies the unit policy silently.",
     tone: "bg-chart-3/20 text-chart-3",
     icon: (
       <svg viewBox="0 0 24 24" className="h-5 w-5" fill="none" stroke="currentColor" strokeWidth="1.8">
@@ -53,16 +60,47 @@ function ArrowIcon() {
   );
 }
 
+function loadProfile(): CompanyProfile {
+  try {
+    const raw = localStorage.getItem(PROFILE_KEY);
+    if (!raw) return DEFAULT_PROFILE;
+    return { ...DEFAULT_PROFILE, ...JSON.parse(raw) };
+  } catch {
+    return DEFAULT_PROFILE;
+  }
+}
+
 export function Workspace() {
   const [files, setFiles] = useState<File[]>([]);
-  const [usingDemoPack, setUsingDemoPack] = useState(true);
+  const [profile, setProfile] = useState<CompanyProfile>(DEFAULT_PROFILE);
   const [draft, setDraft] = useState<Draft | null>(null);
+  const [logEvents, setLogEvents] = useState<AuditEvent[]>([]);
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [memoryKeys, setMemoryKeys] = useState<string[]>([]);
+  const [erpLive, setErpLive] = useState(false);
 
   useEffect(() => {
-    getMemory(COMPANY)
+    setProfile(loadProfile());
+  }, []);
+
+  useEffect(() => {
+    getAgentHealth()
+      .then((health) => setErpLive(Boolean(health.erp_live)))
+      .catch(() => setErpLive(false));
+  }, []);
+
+  useEffect(() => {
+    localStorage.setItem(PROFILE_KEY, JSON.stringify(profile));
+  }, [profile]);
+
+  useEffect(() => {
+    const id = profile.company_id.trim();
+    if (!id) {
+      setMemoryKeys([]);
+      return;
+    }
+    getMemory(id)
       .then((mem) => {
         const keys = (mem.overrides || [])
           .map((item) => String(item.key || ""))
@@ -70,20 +108,30 @@ export function Workspace() {
         setMemoryKeys(keys);
       })
       .catch(() => undefined);
-  }, []);
+  }, [profile.company_id]);
+
+  const canRun = Boolean(profile.company_id.trim()) && (files.length > 0 || erpLive) && !busy;
 
   const chipVisible =
     Boolean(draft?.policy_applied) || (memoryKeys.length > 0 && draft?.widget == null && Boolean(draft));
   const chipKeys = draft?.policy_keys?.length ? draft.policy_keys : memoryKeys;
 
-  const events = useMemo(() => draft?.events || [], [draft]);
+  const events = useMemo(
+    () => (logEvents.length > 0 ? logEvents : draft?.events || []),
+    [draft, logEvents],
+  );
 
   async function onRun() {
+    if (!canRun) return;
     setBusy(true);
     setError(null);
+    setLogEvents([]);
     try {
-      const next = await runAudit(usingDemoPack ? [] : files, COMPANY);
+      const next = await runAudit(files, profile, (event) => {
+        setLogEvents((prev) => [...prev, event]);
+      }, erpLive);
       setDraft(next);
+      setLogEvents(next.events?.length ? next.events : []);
       if (next.policy_applied) setMemoryKeys(next.policy_keys || []);
     } catch (err) {
       setError(err instanceof Error ? err.message : "Audit failed");
@@ -96,19 +144,17 @@ export function Workspace() {
     setBusy(true);
     setError(null);
     try {
-      const next = await confirmExtraction({ ...payload, company_id: COMPANY });
+      const next = await confirmExtraction({
+        ...payload,
+        company_id: profile.company_id.trim(),
+      });
       setDraft(next);
-      setMemoryKeys(next.policy_keys || ["electricity_unit"]);
+      setMemoryKeys(next.policy_keys || []);
     } catch (err) {
       setError(err instanceof Error ? err.message : "Confirm failed");
     } finally {
       setBusy(false);
     }
-  }
-
-  function onUseDemoPack() {
-    setFiles([]);
-    setUsingDemoPack(true);
   }
 
   return (
@@ -133,7 +179,7 @@ export function Workspace() {
           <button
             type="button"
             onClick={onRun}
-            disabled={busy}
+            disabled={!canRun}
             className="rounded-full bg-primary px-5 py-2.5 text-sm font-semibold text-primary-foreground shadow-md transition hover:opacity-90 disabled:opacity-60"
           >
             {busy ? "Running close…" : "Run audit"}
@@ -149,37 +195,62 @@ export function Workspace() {
               Close the period. <span className="text-primary">Ask only when it matters.</span>
             </h1>
             <p className="mt-4 max-w-xl text-lg text-muted-foreground">
-              Drafts a GHG inventory from mixed evidence on its own, then collaborates only where a
+              Drafts a GHG inventory from this company’s mixed evidence, then collaborates only where a
               human decision is required — and remembers how this company audits.
             </p>
+            <div className="mt-6 grid grid-cols-2 gap-3">
+              <label className="col-span-2 text-xs text-muted-foreground">
+                Company id
+                <input
+                  className="mt-1 w-full rounded-md border border-border bg-background px-3 py-2 text-sm text-foreground"
+                  value={profile.company_id}
+                  onChange={(event) => setProfile((prev) => ({ ...prev, company_id: event.target.value }))}
+                  placeholder="acme-logistics"
+                />
+              </label>
+              <label className="col-span-2 text-xs text-muted-foreground">
+                Display name
+                <input
+                  className="mt-1 w-full rounded-md border border-border bg-background px-3 py-2 text-sm text-foreground"
+                  value={profile.company_name}
+                  onChange={(event) => setProfile((prev) => ({ ...prev, company_name: event.target.value }))}
+                  placeholder="Acme Logistics Ltd"
+                />
+              </label>
+              <label className="text-xs text-muted-foreground">
+                Reporting year
+                <input
+                  type="number"
+                  className="mt-1 w-full rounded-md border border-border bg-background px-3 py-2 text-sm text-foreground"
+                  value={profile.reporting_year}
+                  onChange={(event) =>
+                    setProfile((prev) => ({ ...prev, reporting_year: Number(event.target.value) }))
+                  }
+                />
+              </label>
+              <label className="text-xs text-muted-foreground">
+                Region / grid
+                <input
+                  className="mt-1 w-full rounded-md border border-border bg-background px-3 py-2 text-sm text-foreground"
+                  value={profile.region}
+                  onChange={(event) => setProfile((prev) => ({ ...prev, region: event.target.value }))}
+                  placeholder="UK"
+                />
+              </label>
+            </div>
             <div className="mt-8 flex flex-wrap gap-3">
               <button
                 type="button"
                 onClick={onRun}
-                disabled={busy}
+                disabled={!canRun}
                 className="inline-flex items-center gap-2 rounded-full bg-primary px-6 py-3 text-sm font-semibold text-primary-foreground shadow-md transition hover:opacity-90 disabled:opacity-60"
               >
                 {busy ? "Running close…" : "Run audit"}
                 <ArrowIcon />
               </button>
-              <button
-                type="button"
-                onClick={onUseDemoPack}
-                className="rounded-full bg-accent px-6 py-3 text-sm font-semibold text-accent-foreground transition hover:bg-accent/80"
-              >
-                Use demo pack
-              </button>
             </div>
           </div>
-          <Dropzone
-            files={files}
-            onFiles={(next) => {
-              setFiles(next);
-              setUsingDemoPack(next.length === 0);
-            }}
-            usingDemoPack={usingDemoPack}
-            onUseDemoPack={onUseDemoPack}
-          />
+          <Dropzone files={files} onFiles={setFiles} erpLive={erpLive} />
         </section>
 
         <section className="grid gap-5 py-8 md:grid-cols-3">
@@ -199,7 +270,7 @@ export function Workspace() {
         ) : null}
 
         <div className="mt-2 grid gap-5 md:grid-cols-[minmax(0,1.35fr)_minmax(260px,0.85fr)]">
-          <InventoryTable draft={draft} />
+          <InventoryTable draft={draft} busy={busy} />
           <A2uiSurface
             messages={draft?.a2ui || []}
             widget={draft?.widget || null}
@@ -211,7 +282,7 @@ export function Workspace() {
         <section className="mt-5 rounded-xl bg-card p-5 text-xs text-muted-foreground shadow-sm">
           <div className="mb-2 font-semibold uppercase tracking-wide text-foreground">Job log</div>
           {events.length === 0 ? (
-            <p>No questions before the draft. Events stream here after Run audit.</p>
+            <p>Events stream here while Run audit is in flight.</p>
           ) : (
             <ol className="space-y-1 font-mono">
               {events.map((event, index) => (

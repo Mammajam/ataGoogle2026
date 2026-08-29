@@ -20,6 +20,8 @@ This design system is built on **Tailwind CSS v4** paired with a **shadcn/ui** s
 
 The color palette is divided into two operational layers: **Core System Tokens** (semantic dynamic variables) and **Data Visualization Tokens** (chart series).
 
+**Brand primary** is Spotify Green (`#1ED760` → `oklch(0.77 0.21 148.67)`). Labels on `--primary` fills use near-black (`--primary-foreground`), the pairing that green needs for contrast. Near-neutral ink (`--foreground`, `--border`) keeps a cool gray cast and is not retinted.
+
 ### 2.1 Base Palette & Semantic Mapping
 
 | Token Name | Light Mode (OKLCH) | Dark Mode (OKLCH) | Purpose / Usage |
@@ -30,19 +32,19 @@ The color palette is divided into two operational layers: **Core System Tokens**
 | `--card-foreground` | `oklch(0.19 0.01 248.51)` | `oklch(0.89 0 0)` | Text content on card surfaces |
 | `--popover` | `oklch(1.00 0 0)` | `oklch(0 0 0)` | Floating menus, tooltips, dropdowns |
 | `--popover-foreground` | `oklch(0.19 0.01 248.51)` | `oklch(0.93 0.00 228.79)` | Content inside popovers |
-| `--primary` | `oklch(0.67 0.16 245.00)` | `oklch(0.67 0.16 245.01)` | Primary action buttons, active states |
-| `--primary-foreground` | `oklch(1.00 0 0)` | `oklch(1.00 0 0)` | Text/icons rendered over `--primary` |
+| `--primary` | `oklch(0.77 0.21 148.67)` | `oklch(0.77 0.21 148.67)` | Primary action buttons, active states |
+| `--primary-foreground` | `oklch(0.15 0.00 0)` | `oklch(0.15 0.00 0)` | Text/icons rendered over `--primary` |
 | `--secondary` | `oklch(0.19 0.01 248.51)` | `oklch(0.96 0.00 219.53)` | Secondary action controls, subtle badges |
 | `--secondary-foreground` | `oklch(1.00 0 0)` | `oklch(0.19 0.01 248.51)` | Text/icons rendered over `--secondary` |
 | `--muted` | `oklch(0.92 0.00 286.37)` | `oklch(0.21 0 0)` | Disabled backgrounds, table striping, faint fills |
 | `--muted-foreground` | `oklch(0.19 0.01 248.51)` | `oklch(0.56 0.01 247.97)` | De-emphasized caption text, placeholders |
-| `--accent` | `oklch(0.94 0.02 250.85)` | `oklch(0.19 0.03 242.55)` | Hover highlights, quiet selection states |
-| `--accent-foreground` | `oklch(0.67 0.16 245.00)` | `oklch(0.67 0.16 245.01)` | Text/icons on accent elements |
+| `--accent` | `oklch(0.94 0.03 148.67)` | `oklch(0.19 0.04 148.67)` | Hover highlights, quiet selection states |
+| `--accent-foreground` | `oklch(0.45 0.13 148.67)` | `oklch(0.77 0.21 148.67)` | Text/icons on accent elements |
 | `--destructive` | `oklch(0.62 0.24 25.77)` | `oklch(0.62 0.24 25.77)` | Error states, dangerous actions, delete controls |
 | `--destructive-foreground` | `oklch(1.00 0 0)` | `oklch(1.00 0 0)` | Text/icons on destructive buttons |
 | `--border` | `oklch(0.93 0.01 231.66)` | `oklch(0.27 0.00 248.00)` | Divider lines, card outlines, input borders |
 | `--input` | `oklch(0.98 0.00 228.78)` | `oklch(0.30 0.03 244.82)` | Form field element fill |
-| `--ring` | `oklch(0.68 0.16 243.35)` | `oklch(0.68 0.16 243.35)` | Focus rings and outline indicators |
+| `--ring` | `oklch(0.69 0.19 148.67)` | `oklch(0.69 0.19 148.67)` | Focus rings and outline indicators |
 
 ### 2.2 Sidebar Specific Palette
 
@@ -50,21 +52,21 @@ The color palette is divided into two operational layers: **Core System Tokens**
 | :--- | :--- | :--- | :--- |
 | `--sidebar` | `oklch(0.98 0.00 197.14)` | `oklch(0.21 0.01 274.53)` | Nav container background |
 | `--sidebar-foreground` | `oklch(0.19 0.01 248.51)` | `oklch(0.89 0 0)` | Navigation text and icons |
-| `--sidebar-primary` | `oklch(0.67 0.16 245.00)` | `oklch(0.68 0.16 243.35)` | Active navigation item indicator |
-| `--sidebar-primary-foreground` | `oklch(1.00 0 0)` | `oklch(1.00 0 0)` | Text on active navigation item |
-| `--sidebar-accent` | `oklch(0.94 0.02 250.85)` | `oklch(0.19 0.03 242.55)` | Hover state for nav items |
-| `--sidebar-accent-foreground` | `oklch(0.67 0.16 245.00)` | `oklch(0.67 0.16 245.01)` | Text color on hovered nav items |
+| `--sidebar-primary` | `oklch(0.77 0.21 148.67)` | `oklch(0.77 0.21 148.67)` | Active navigation item indicator |
+| `--sidebar-primary-foreground` | `oklch(0.15 0.00 0)` | `oklch(0.15 0.00 0)` | Text on active navigation item |
+| `--sidebar-accent` | `oklch(0.94 0.03 148.67)` | `oklch(0.19 0.04 148.67)` | Hover state for nav items |
+| `--sidebar-accent-foreground` | `oklch(0.45 0.13 148.67)` | `oklch(0.77 0.21 148.67)` | Text color on hovered nav items |
 | `--sidebar-border` | `oklch(0.93 0.01 238.52)` | `oklch(0.38 0.02 240.59)` | Sidebar structural separator |
-| `--sidebar-ring` | `oklch(0.68 0.16 243.35)` | `oklch(0.68 0.16 243.35)` | Sidebar interactive focus ring |
+| `--sidebar-ring` | `oklch(0.69 0.19 148.67)` | `oklch(0.69 0.19 148.67)` | Sidebar interactive focus ring |
 
 ### 2.3 Data Visualization / Charting Palette
 
 | Chart Token | OKLCH Value | Visual Color |
 | :--- | :--- | :--- |
-| `--chart-1` | `oklch(0.67 0.16 245.00)` | Electric Blue (Primary series) |
-| `--chart-2` | `oklch(0.69 0.16 160.35)` | Vibrant Teal |
+| `--chart-1` | `oklch(0.77 0.21 148.67)` | Spotify Green (Primary series) |
+| `--chart-2` | `oklch(0.67 0.16 245.00)` | Electric Blue |
 | `--chart-3` | `oklch(0.82 0.16 82.53)` | Warm Amber |
-| `--chart-4` | `oklch(0.71 0.18 151.71)` | Bright Emerald |
+| `--chart-4` | `oklch(0.69 0.16 160.35)` | Vibrant Teal |
 | `--chart-5` | `oklch(0.59 0.22 10.58)` | Deep Red / Coral |
 
 ---
@@ -143,7 +145,7 @@ Provides graceful degradation for missing or failed images through smooth opacit
 
 ## 7. Visual Language (Reference Application)
 
-The target UI is a **mobile-inspired, high-radius marketing/workspace shell**: clean white canvas, generous whitespace, electric-blue primary actions, and pill-shaped controls. Use this section as the layout and component brief when implementing tokens from sections 2–5.
+The target UI is a **mobile-inspired, high-radius marketing/workspace shell**: clean white canvas, generous whitespace, Spotify-green primary actions, and pill-shaped controls. Use this section as the layout and component brief when implementing tokens from sections 2–5.
 
 ### 7.1 Page Canvas
 
@@ -156,7 +158,7 @@ The target UI is a **mobile-inspired, high-radius marketing/workspace shell**: c
 * Left: wordmark in `--foreground` sans, medium weight.
 * Center: quiet text links (`--muted-foreground` after the section 6 contrast fix) for in-page anchors.
 * Right: ghost text control + one pill primary CTA (`--primary` fill, `--primary-foreground` label, `--radius-xl` corners).
-* Header sits on the same white canvas; no heavy bar, no green brand strip.
+* Header sits on the same white canvas; no heavy bar, no colored brand strip.
 
 ### 7.3 Hero / Lead Block
 
@@ -164,7 +166,7 @@ The target UI is a **mobile-inspired, high-radius marketing/workspace shell**: c
 * Headline uses `--text-4xl` / `--text-5xl`, bold. Accent the second clause in `--primary` (example pattern: “Your Safety, **Our Priority.**”).
 * Supporting paragraph is `--text-base` / `--text-lg` at `--muted-foreground`.
 * Dual CTAs, both pills:
-  * Primary: solid `--primary`, white label, trailing arrow icon.
+  * Primary: solid `--primary`, `--primary-foreground` (near-black) label, trailing arrow icon.
   * Secondary: `--accent` or light muted fill, `--accent-foreground` / `--foreground` label.
 * Hero media uses `--radius-xl`, `--shadow-lg`, and may carry a small white overlay chip (`--radius-lg`, `--shadow-md`) on the lower-left of the image.
 
@@ -172,7 +174,7 @@ The target UI is a **mobile-inspired, high-radius marketing/workspace shell**: c
 
 * Three equal cards in a horizontal grid.
 * Surface: `--card`, `--radius-xl`, `--shadow-md`, generous internal padding.
-* Leading circular icon well (primary blue, accent blue, or warm `--chart-3` / `--chart-5` for variety).
+* Leading circular icon well (primary green, accent green, or warm `--chart-3` / `--chart-5` for variety).
 * Bold card title + short `--muted-foreground` body.
 
 ### 7.5 Proof / Trust Block
@@ -195,9 +197,9 @@ Apply the same geometry and tokens to the analyst workspace (not a marketing clo
 | Inventory table | `--card` + `--shadow-md`; striped rows with `--muted`; numeric cells in `--font-mono` |
 | Material / A2UI gate | Right-column card matching the testimonial treatment; confirm buttons use primary / secondary pills |
 | Memory / policy chip | Small rounded badge on `--accent` with `--accent-foreground` |
-| Destructive / failed run | `--destructive` text or button; never primary blue |
+| Destructive / failed run | `--destructive` text or button; never primary green |
 | Scope / tCO₂e series | `--chart-1` … `--chart-5` if a breakdown chart is added |
 
 ### 7.8 Do Not Carry Forward
 
-The current `web/app/globals.css` cream/green/gold/Georgia tokens (`--cream`, `--green`, `--gold`, `--ink`) are superseded by this document. Do not mix those primitives with the OKLCH semantic set.
+The previous `web/app/globals.css` cream/green/gold/Georgia tokens (`--cream`, `--green`, `--gold`, `--ink`) are superseded by this document. Brand green lives only on `--primary` / `--accent` / `--chart-1` (Spotify Green), never as a separate `--green` primitive. Do not mix those old primitives with the OKLCH semantic set.

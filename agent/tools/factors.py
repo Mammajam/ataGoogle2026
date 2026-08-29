@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import json
 
+from pipeline.factors_provider import FixtureProvider, get_provider
 from pipeline.paths import fixtures_dir
 
 
@@ -13,35 +14,15 @@ def load_factors() -> list[dict]:
 def lookup_factor(
     activity: str,
     unit: str,
-    region: str = "UK",
-    year: int = 2025,
+    region: str,
+    year: int,
     method: str | None = None,
 ) -> str:
-    """Look up a mock carbon emission factor (JSON string)."""
-    matches = []
-    for row in load_factors():
-        if row["activity"] != activity:
-            continue
-        if region and row.get("region") != region:
-            continue
-        if year and row.get("year") != year:
-            continue
-        if method and row.get("method") != method:
-            continue
-        # Electricity factors are stored per kWh even when the activity unit is MWh.
-        if activity != "electricity" and unit and row.get("unit") != unit.lower() and row.get("unit") != unit:
-            continue
-        matches.append(row)
-    if not matches:
-        return json.dumps(
-            {
-                "error": "factor_not_found",
-                "activity": activity,
-                "unit": unit,
-                "region": region,
-                "year": year,
-                "method": method,
-            }
-        )
-    chosen = matches[0]
-    return json.dumps(chosen)
+    """Look up an emission factor (JSON string). Region and year come from the company close."""
+    provider = get_provider()
+    result = provider.lookup(activity, unit, region, year, method)
+    return json.dumps(result)
+
+
+def fixture_catalog() -> FixtureProvider:
+    return FixtureProvider()

@@ -1,0 +1,14 @@
+# Build FastMCP from repo root (Dockerfile copies agent + mcp + fixtures).
+steps:
+  - name: gcr.io/cloud-builders/docker
+    args:
+      - build
+      - -f
+      - mcp/Dockerfile
+      - -t
+      - $_IMAGE
+      - .
+images:
+  - $_IMAGE
+substitutions:
+  _IMAGE: greenchain-mcp

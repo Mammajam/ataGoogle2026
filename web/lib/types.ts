@@ -33,6 +33,7 @@ export type ExtractionWidget = {
   alternate: { quantity: number; unit: string; label?: string };
   recommended_tco2e: number;
   alternate_tco2e: number;
+  activity?: string;
 };
 
 export type Draft = {
@@ -54,6 +55,7 @@ export type Draft = {
   widget: ExtractionWidget | null;
   a2ui: A2uiMessage[];
   events: AuditEvent[];
+  engine?: string;
   last_confirmation?: { line_id: string; quantity: number; unit: string };
 };
 
@@ -63,10 +65,25 @@ export type MemoryResponse = {
   policy_applied: boolean;
 };
 
+export type CompanyProfile = {
+  company_id: string;
+  company_name: string;
+  reporting_year: number;
+  region: string;
+};
+
 export type ConfirmPayload = {
   run_id: string;
   line_id: string;
   quantity: number;
   unit: string;
   company_id?: string;
+};
+
+export type AgentHealth = {
+  ok: boolean;
+  erp_live?: boolean;
+  engine_default?: string;
+  factors?: { provider?: string; live?: boolean };
+  store?: { backend?: string; ok?: boolean };
 };

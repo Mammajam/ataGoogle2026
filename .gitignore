@@ -23,6 +23,10 @@ agent/data/*.json
 agent/data/overrides/
 agent/data/drafts/
 agent/data/evidence/
+agent/data/artifacts/
+agent/data/sessions/
+agent/data/companies/
+!agent/data/artifacts/.gitkeep
 agent/bundled_fixtures/
 agent/sessions.db
 *.db
@@ -43,6 +47,9 @@ Thumbs.db
 .idea/
 .vscode/
 .cursor/
+
+# Vercel
+.vercel
 
 # Generated
 *.pyc

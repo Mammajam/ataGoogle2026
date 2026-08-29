@@ -1,0 +1,24 @@
+{
+  "company_id": "northwind-energy",
+  "name": "Northwind Energy Ltd",
+  "sector": "renewable energy developer",
+  "country": "GB",
+  "reporting_year": 2025,
+  "reporting_period": "2025-01-01/2025-12-31",
+  "sites": [
+    {
+      "id": "leeds-hq",
+      "name": "Leeds HQ",
+      "region": "UK",
+      "grid": "GB"
+    },
+    {
+      "id": "aberdeen-depot",
+      "name": "Aberdeen Depot",
+      "region": "UK",
+      "grid": "GB"
+    }
+  ],
+  "scope2_default_method": "location-based",
+  "currency": "GBP"
+}

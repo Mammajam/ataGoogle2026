@@ -1,6 +1,6 @@
 {
-  "version": "demo-2025",
-  "disclaimer": "Demo factors for the GreenChain hackathon. Values are DESNZ/DEFRA-shaped, not a licensed extract.",
+  "version": "catalog-2025",
+  "disclaimer": "Offline factor catalog for GreenChain. Values are DESNZ/DEFRA-shaped, not a licensed extract. Inventory quantities never come from this file.",
   "factors": [
     {
       "id": "diesel-uk-2025-defra",
@@ -37,6 +37,30 @@
       "year": 2025,
       "source": "Demo residual-mix market-based",
       "method": "market-based"
+    },
+    {
+      "id": "natgas-uk-2025-defra",
+      "activity": "natural_gas",
+      "scope": 1,
+      "category": null,
+      "unit": "kwh",
+      "kgco2e_per_unit": 0.18293,
+      "region": "UK",
+      "year": 2025,
+      "source": "DESNZ/DEFRA 2025",
+      "method": "activity-based"
+    },
+    {
+      "id": "petrol-uk-2025-defra",
+      "activity": "petrol",
+      "scope": 1,
+      "category": null,
+      "unit": "litre",
+      "kgco2e_per_unit": 2.16802,
+      "region": "UK",
+      "year": 2025,
+      "source": "DESNZ/DEFRA 2025",
+      "method": "activity-based"
     },
     {
       "id": "steel-uk-spend-2025",
@@ -85,6 +109,66 @@
       "year": 2025,
       "source": "EEIO spend-based 2025",
       "method": "spend-based"
+    },
+    {
+      "id": "purchased-goods-uk-spend-2025",
+      "activity": "purchased_goods",
+      "scope": 3,
+      "category": 1,
+      "unit": "gbp",
+      "kgco2e_per_unit": 0.4,
+      "region": "UK",
+      "year": 2025,
+      "source": "EEIO spend-based 2025",
+      "method": "spend-based"
+    },
+    {
+      "id": "freight-uk-spend-2025",
+      "activity": "freight",
+      "scope": 3,
+      "category": 4,
+      "unit": "gbp",
+      "kgco2e_per_unit": 0.39,
+      "region": "UK",
+      "year": 2025,
+      "source": "EEIO spend-based 2025",
+      "method": "spend-based"
+    },
+    {
+      "id": "road-freight-uk-spend-2025",
+      "activity": "road_freight",
+      "scope": 3,
+      "category": 4,
+      "unit": "gbp",
+      "kgco2e_per_unit": 0.51,
+      "region": "UK",
+      "year": 2025,
+      "source": "EEIO spend-based 2025",
+      "method": "spend-based"
+    },
+    {
+      "id": "air-travel-uk-spend-2025",
+      "activity": "air_travel",
+      "scope": 3,
+      "category": 6,
+      "unit": "gbp",
+      "kgco2e_per_unit": 0.48,
+      "region": "UK",
+      "year": 2025,
+      "source": "EEIO spend-based 2025",
+      "method": "spend-based"
+    },
+    {
+      "id": "waste-uk-2025",
+      "activity": "waste",
+      "scope": 3,
+      "category": 5,
+      "unit": "tonne",
+      "kgco2e_per_unit": 446.2,
+      "region": "UK",
+      "year": 2025,
+      "source": "DESNZ waste 2025",
+      "method": "activity-based"
     }
   ]
 }

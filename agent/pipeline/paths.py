@@ -10,20 +10,18 @@ REPO_ROOT = AGENT_ROOT.parent
 
 
 def fixtures_dir() -> Path:
-    return Path(os.environ.get("GREENCHAIN_FIXTURES", REPO_ROOT / "fixtures"))
+    return Path(os.environ.get("GREENCHAIN_FIXTURES") or (REPO_ROOT / "fixtures"))
 
 
 def data_dir() -> Path:
-    return Path(os.environ.get("GREENCHAIN_DATA", AGENT_ROOT / "data"))
+    return Path(os.environ.get("GREENCHAIN_DATA") or (AGENT_ROOT / "data"))
 
 
 def ensure_data_dirs() -> None:
     root = data_dir()
-    (root / "drafts").mkdir(parents=True, exist_ok=True)
-    (root / "overrides").mkdir(parents=True, exist_ok=True)
-    (root / "evidence").mkdir(parents=True, exist_ok=True)
+    for name in ("drafts", "overrides", "evidence", "artifacts", "sessions", "companies"):
+        (root / name).mkdir(parents=True, exist_ok=True)
 
 
-# Back-compat names used by older imports
 FIXTURES = fixtures_dir()
 DATA_DIR = data_dir()

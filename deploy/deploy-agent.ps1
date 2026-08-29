@@ -2,7 +2,8 @@ param(
   [string]$Project = $env:GOOGLE_CLOUD_PROJECT,
   [string]$Region = "us-central1",
   [string]$Service = "greenchain-agent",
-  [string]$WebOrigin = $env:WEB_ORIGIN
+  [string]$WebOrigin = $env:WEB_ORIGIN,
+  [string]$McpUrl = $env:MCP_URL
 )
 
 $ErrorActionPreference = "Stop"
@@ -19,11 +20,11 @@ $envArgs = @(
   "GOOGLE_CLOUD_LOCATION=$Region",
   "GOOGLE_CLOUD_PROJECT=$Project",
   "GEMINI_MODEL=gemini-3.5-flash",
-  "GREENCHAIN_STORE=file",
-  "GREENCHAIN_FIXTURES=/app/bundled_fixtures",
-  "GREENCHAIN_COMPANY_ID=northwind-energy"
+  "GREENCHAIN_STORE=firestore",
+  "GREENCHAIN_FIXTURES=/app/bundled_fixtures"
 )
 if ($WebOrigin) { $envArgs += "WEB_ORIGIN=$WebOrigin" }
+if ($McpUrl) { $envArgs += "MCP_URL=$McpUrl" }
 
 gcloud run deploy $Service `
   --source (Join-Path $Root "agent") `

@@ -1,53 +1,33 @@
 from __future__ import annotations
 
-import csv
 import json
 from typing import Any
 
-from pipeline.paths import fixtures_dir
+from pipeline.csv_parse import parse_run_tabular
 
 
-def get_erp_activity(company_id: str = "northwind-energy") -> str:
-    """Return fixture ERP activity rows for one company / 12 months (JSON string).
-
-    Mock of an SAP/NetSuite export. Scope 2 quantity cells are blank; Scope 3
-    purchased-goods rows are spend-only.
-    """
-    path = fixtures_dir() / "erp_export.csv"
-    rows: list[dict[str, Any]] = []
-    with path.open(newline="", encoding="utf-8") as handle:
-        for raw in csv.DictReader(handle):
-            quantity = raw.get("quantity") or ""
-            spend = raw.get("spend_gbp") or ""
-            rows.append(
-                {
-                    "period_month": raw["period_month"],
-                    "site_id": raw["site_id"],
-                    "site_name": raw["site_name"],
-                    "ghg_scope": int(raw["ghg_scope"]),
-                    "ghg_category": int(raw["ghg_category"]) if raw.get("ghg_category") else None,
-                    "activity_type": raw["activity_type"],
-                    "activity_name": raw["activity_name"],
-                    "quantity": float(quantity) if quantity else None,
-                    "unit": raw["unit"] or None,
-                    "spend_gbp": float(spend) if spend else None,
-                    "vendor": raw["vendor"],
-                    "artifact_hint": raw["artifact_hint"],
-                    "notes": raw["notes"],
-                }
-            )
+def get_erp_activity(run_id: str, company_id: str) -> str:
+    """Return this run's uploaded tabular activity rows (JSON string)."""
+    rows, source = parse_run_tabular(run_id, company_id)
+    if source is None:
+        return json.dumps(
+            {"error": "no_tabular_artifact", "run_id": run_id, "company_id": company_id, "row_count": 0, "rows": []}
+        )
     payload = {
         "company_id": company_id,
-        "source": "fixtures/erp_export.csv",
+        "run_id": run_id,
+        "source": source,
         "row_count": len(rows),
         "rows": rows,
     }
     return json.dumps(payload)
 
 
-def summarize_erp(company_id: str = "northwind-energy") -> str:
-    """Roll ERP rows up by activity for the orchestrator."""
-    data = json.loads(get_erp_activity(company_id))
+def summarize_erp(run_id: str, company_id: str) -> str:
+    """Roll this run's ERP rows up by activity."""
+    data = json.loads(get_erp_activity(run_id, company_id))
+    if data.get("error"):
+        return json.dumps(data)
     buckets: dict[str, dict[str, Any]] = {}
     for row in data["rows"]:
         key = row["activity_name"]
@@ -69,4 +49,4 @@ def summarize_erp(company_id: str = "northwind-energy") -> str:
             bucket["quantity"] += row["quantity"]
         if row["spend_gbp"] is not None:
             bucket["spend_gbp"] += row["spend_gbp"]
-    return json.dumps({"company_id": company_id, "activities": list(buckets.values())})
+    return json.dumps({"company_id": company_id, "run_id": run_id, "activities": list(buckets.values())})

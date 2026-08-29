@@ -1,18 +1,21 @@
 """GreenChain Audit Lead HTTP service.
 
-Mounts the deterministic audit API always, and the ADK FastAPI app when google-adk
-and Vertex credentials are present. Local file-store mode does not require GCP.
+Deterministic /api/audit/run always works. When Vertex + ADK + MCP are healthy,
+the same route drives an ADK session (Gemini sees PDF/JPEG) and can stream SSE.
 """
 
 from __future__ import annotations
 
+import json
 import os
 import sys
 from pathlib import Path
+from typing import Any
 
 from dotenv import load_dotenv
-from fastapi import FastAPI, File, Form, UploadFile
+from fastapi import FastAPI, File, Form, HTTPException, Request, UploadFile
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.responses import JSONResponse, Response, StreamingResponse
 from pydantic import BaseModel
 
 AGENT_DIR = Path(__file__).resolve().parent
@@ -23,8 +26,15 @@ os.environ.setdefault("GOOGLE_GENAI_USE_VERTEXAI", "TRUE")
 os.environ.setdefault("GOOGLE_CLOUD_LOCATION", "us-central1")
 os.environ.setdefault("GEMINI_MODEL", "gemini-3.5-flash")
 os.environ.setdefault("GREENCHAIN_STORE", "file")
+os.environ.setdefault("MCP_URL", "http://127.0.0.1:8081")
 
-from pipeline.audit import confirm_extraction, run_audit  # noqa: E402
+from pipeline.adk_runtime import (  # noqa: E402
+    CloseError,
+    confirm_close,
+    run_close,
+)
+from pipeline.erp_provider import erp_live_configured  # noqa: E402
+from pipeline.health import health_payload  # noqa: E402
 from pipeline.store import get_store  # noqa: E402
 
 WEB_ORIGIN = os.environ.get("WEB_ORIGIN", "http://localhost:3000")
@@ -35,10 +45,29 @@ if "http://localhost:3000" not in ALLOW_ORIGINS:
 
 class ConfirmBody(BaseModel):
     run_id: str
-    line_id: str = "s2-grid-electricity"
-    quantity: float = 184200
-    unit: str = "kWh"
-    company_id: str = "northwind-energy"
+    line_id: str
+    quantity: float
+    unit: str
+    company_id: str
+
+
+def _uploads(files: list[UploadFile] | None) -> list[dict[str, Any]]:
+    items = []
+    for item in files or []:
+        data = item.file.read() if item.file else b""
+        items.append(
+            {
+                "filename": item.filename or "upload.bin",
+                "bytes": data,
+                "content_type": item.content_type,
+            }
+        )
+    return items
+
+
+def _sse(payload: dict[str, Any]) -> str:
+    event = payload.get("type") or payload.get("step") or "log"
+    return f"event: {event}\ndata: {json.dumps(payload)}\n\n"
 
 
 def _attach_routes(app: FastAPI) -> FastAPI:
@@ -60,33 +89,104 @@ def _attach_routes(app: FastAPI) -> FastAPI:
 
     @app.get("/health")
     def health() -> dict:
-        store_name = type(get_store()).__name__
-        return {
-            "ok": True,
-            "service": "greenchain-audit-lead",
-            "model": os.environ.get("GEMINI_MODEL", "gemini-3.5-flash"),
-            "store": store_name,
-            "vertex": os.environ.get("GOOGLE_GENAI_USE_VERTEXAI"),
-        }
+        return health_payload()
+
+    @app.get("/ready")
+    def ready() -> dict:
+        payload = health_payload()
+        if not payload.get("ready"):
+            return JSONResponse(payload, status_code=503)
+        return payload
 
     @app.post("/api/audit/run")
     async def api_run_audit(
-        company_id: str = Form(default="northwind-energy"),
+        request: Request,
+        company_id: str = Form(...),
+        company_name: str = Form(default=""),
+        reporting_year: str = Form(default=""),
+        region: str = Form(default=""),
         files: list[UploadFile] | None = File(default=None),
-    ) -> dict:
-        names = [item.filename or "upload" for item in files or []]
-        draft = run_audit(company_id=company_id, filenames=names or None)
-        return draft
+    ):
+        uploads = _uploads(files)
+        cid = (company_id or "").strip()
+        if not cid:
+            raise HTTPException(status_code=400, detail="company_id is required")
+        if (not uploads or not any(item.get("bytes") for item in uploads)) and not erp_live_configured():
+            raise HTTPException(status_code=400, detail="at least one evidence file is required")
+        year = None
+        if (reporting_year or "").strip():
+            try:
+                year = int(reporting_year)
+            except ValueError as exc:
+                raise HTTPException(status_code=400, detail="reporting_year must be an integer") from exc
+        want_sse = "text/event-stream" in (request.headers.get("accept") or "")
+        kwargs = {
+            "company_id": cid,
+            "uploads": uploads,
+            "company_name": (company_name or "").strip() or None,
+            "reporting_year": year,
+            "region": (region or "").strip() or None,
+        }
+
+        if want_sse:
+
+            async def gen():
+                try:
+                    async for event in run_close(**kwargs):
+                        yield _sse(event)
+                except CloseError as exc:
+                    yield _sse({"step": "error", "message": str(exc)})
+
+            return StreamingResponse(
+                gen(),
+                media_type="text/event-stream",
+                headers={"Cache-Control": "no-cache", "X-Accel-Buffering": "no"},
+            )
+
+        draft = None
+        try:
+            async for event in run_close(**kwargs):
+                if event.get("type") == "draft":
+                    draft = event["draft"]
+        except CloseError as exc:
+            raise HTTPException(status_code=400, detail=str(exc)) from exc
+        return JSONResponse(draft or {"error": "no_draft"})
 
     @app.post("/api/audit/confirm")
-    def api_confirm(payload: ConfirmBody) -> dict:
-        return confirm_extraction(
+    async def api_confirm(payload: ConfirmBody) -> dict:
+        draft = None
+        async for event in confirm_close(
             run_id=payload.run_id,
             line_id=payload.line_id,
             quantity=payload.quantity,
             unit=payload.unit,
             company_id=payload.company_id,
-        )
+        ):
+            if event.get("type") == "draft":
+                draft = event["draft"]
+        return draft or {"error": "no_draft"}
+
+    @app.get("/api/audit/{run_id}/artifacts/{filename}")
+    def api_get_artifact(run_id: str, filename: str):
+        from pathlib import Path
+
+        name = Path(filename).name
+        data = get_store().read_artifact(run_id, name)
+        if data is None:
+            raise HTTPException(status_code=404, detail="artifact not found")
+        lower = name.lower()
+        media = "application/octet-stream"
+        if lower.endswith(".csv"):
+            media = "text/csv"
+        elif lower.endswith(".pdf"):
+            media = "application/pdf"
+        elif lower.endswith(".png"):
+            media = "image/png"
+        elif lower.endswith(".webp"):
+            media = "image/webp"
+        elif lower.endswith((".jpg", ".jpeg")):
+            media = "image/jpeg"
+        return Response(content=data, media_type=media)
 
     @app.get("/api/audit/{run_id}")
     def api_get_draft(run_id: str) -> dict:
@@ -107,6 +207,18 @@ def _attach_routes(app: FastAPI) -> FastAPI:
     return app
 
 
+def _drop_adk_health_routes(app: FastAPI) -> None:
+    """ADK FastAPI registers GET /health first; keep GreenChain's payload instead."""
+    kept = []
+    for route in app.router.routes:
+        path = getattr(route, "path", None)
+        methods = getattr(route, "methods", None) or set()
+        if path in {"/health", "/healthz"} and (not methods or "GET" in methods):
+            continue
+        kept.append(route)
+    app.router.routes = kept
+
+
 def build_app() -> FastAPI:
     try:
         from google.adk.cli.fast_api import get_fast_api_app
@@ -121,9 +233,10 @@ def build_app() -> FastAPI:
             kwargs["session_service_uri"] = session_uri
         app = get_fast_api_app(**kwargs)
         app.title = "GreenChain Audit Lead"
+        _drop_adk_health_routes(app)
         return _attach_routes(app)
     except Exception as exc:  # noqa: BLE001
-        print(f"[greenchain] ADK FastAPI not mounted ({exc}); demo API is live.")
+        print(f"[greenchain] ADK FastAPI not mounted ({exc}); file-mode API is live.")
         app = FastAPI(title="GreenChain Audit Lead (file mode)")
         return _attach_routes(app)
 

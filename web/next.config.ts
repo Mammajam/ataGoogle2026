@@ -2,9 +2,9 @@ import path from "path";
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  // Standalone output is for Linux Cloud Run. Windows + pnpm cannot create
-  // the required symlinks (EPERM) unless Developer Mode is on.
-  output: process.env.DOCKER_BUILD === "1" || process.platform !== "win32" ? "standalone" : undefined,
+  // Standalone is Docker/Cloud Run only. Vercel (and local `pnpm build`) must
+  // use the default Next.js output so the platform can bundle functions.
+  output: process.env.DOCKER_BUILD === "1" ? "standalone" : undefined,
   outputFileTracingRoot: path.join(__dirname),
 };
 

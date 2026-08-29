@@ -35,18 +35,19 @@ function collectComponents(messages: A2uiMessage[]): {
   let surfaceId: string | null = null;
   for (const raw of messages) {
     const msg = raw as Record<string, unknown>;
-    if (msg.createSurface && typeof msg.createSurface === "object") {
-      surfaceId = String((msg.createSurface as { surfaceId?: string }).surfaceId || "extraction-confirm");
+    const create = msg.createSurface as { surfaceId?: string } | undefined;
+    if (create && typeof create === "object") {
+      surfaceId = String(create.surfaceId || "extraction-confirm");
     }
-    if (msg.updateComponents && typeof msg.updateComponents === "object") {
-      const update = msg.updateComponents as { components?: ComponentNode[] };
-      for (const node of update.components || []) {
+    const components = msg.updateComponents as { components?: ComponentNode[] } | undefined;
+    if (components && typeof components === "object") {
+      for (const node of components.components || []) {
         nodes[node.id] = node;
       }
     }
-    if (msg.updateDataModel && typeof msg.updateDataModel === "object") {
-      const update = msg.updateDataModel as { value?: Record<string, unknown> };
-      model = { ...model, ...(update.value || {}) };
+    const dataModel = msg.updateDataModel as { value?: Record<string, unknown> } | undefined;
+    if (dataModel && typeof dataModel === "object") {
+      model = { ...model, ...(dataModel.value || {}) };
     }
   }
   return { nodes, model, surfaceId };
@@ -157,7 +158,7 @@ export function A2uiSurface({ messages, widget, busy, onConfirm }: Props) {
   const emit = (context: Record<string, unknown>) => {
     onConfirm({
       run_id: String(context.run_id || widget?.run_id || model.run_id || ""),
-      line_id: String(context.line_id || widget?.line_id || "s2-grid-electricity"),
+      line_id: String(context.line_id || widget?.line_id || ""),
       quantity: Number(context.quantity),
       unit: String(context.unit),
     });
@@ -184,10 +185,12 @@ export function A2uiSurface({ messages, widget, busy, onConfirm }: Props) {
           />
         ) : widget ? (
           <div className="rounded-lg border border-border bg-card p-4">
-            <p className="text-xl font-semibold text-foreground">Extraction confirm — kWh vs MWh</p>
+            <p className="text-xl font-semibold text-foreground">
+              Extraction confirm — {widget.recommended.unit} vs {widget.alternate.unit}
+            </p>
             <p className="mt-2 text-sm text-muted-foreground">
-              Vision is 70% sure the bill is 184,200 kWh, not 184,200 MWh. Confirming recalculates
-              the line.
+              Two readings disagree. Confirming recalculates the line and stores policy for this
+              company.
             </p>
             <div className="mt-4 flex flex-col gap-2">
               <button

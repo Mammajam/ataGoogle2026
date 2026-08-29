@@ -17,14 +17,17 @@ def extraction_confirm_messages(
     rec_tco2e: float,
     alt_tco2e: float,
     confidence: float,
+    activity: str = "activity",
+    source: str = "evidence",
 ) -> list[dict[str, Any]]:
-    """Compose ExtractionConfirm from the v0.9 basic catalog only (no custom widgets)."""
     rec_label = (
         f"Confirm {recommended['quantity']:,.0f} {recommended['unit']}  →  {rec_tco2e:,.3f} tCO2e"
     )
     alt_label = (
         f"Use {alternate['quantity']:,.0f} {alternate['unit']}  →  {alt_tco2e:,.3f} tCO2e"
     )
+    rec_unit = str(recommended.get("unit") or "rec")
+    alt_unit = str(alternate.get("unit") or "alt")
     return [
         {
             "version": "v0.9",
@@ -39,40 +42,21 @@ def extraction_confirm_messages(
                     {
                         "id": "body",
                         "component": "Column",
-                        "children": [
-                            "title",
-                            "explain",
-                            "confidence",
-                            "actions",
-                        ],
+                        "children": ["title", "explain", "confidence", "actions"],
                     },
                     {
                         "id": "title",
                         "component": "Text",
-                        "text": "Extraction confirm — kWh vs MWh",
+                        "text": f"Extraction confirm — {activity}",
                         "variant": "h2",
                     },
+                    {"id": "explain", "component": "Text", "text": {"path": "/explanation"}},
+                    {"id": "confidence", "component": "Text", "text": {"path": "/confidence_label"}},
+                    {"id": "actions", "component": "Column", "children": ["btn-rec", "btn-alt"]},
                     {
-                        "id": "explain",
-                        "component": "Text",
-                        "text": {
-                            "path": "/explanation",
-                        },
-                    },
-                    {
-                        "id": "confidence",
-                        "component": "Text",
-                        "text": {"path": "/confidence_label"},
-                    },
-                    {
-                        "id": "actions",
-                        "component": "Column",
-                        "children": ["btn-kwh", "btn-mwh"],
-                    },
-                    {
-                        "id": "btn-kwh",
+                        "id": "btn-rec",
                         "component": "Button",
-                        "child": "lbl-kwh",
+                        "child": "lbl-rec",
                         "variant": "primary",
                         "action": {
                             "event": {
@@ -87,11 +71,11 @@ def extraction_confirm_messages(
                             }
                         },
                     },
-                    {"id": "lbl-kwh", "component": "Text", "text": rec_label},
+                    {"id": "lbl-rec", "component": "Text", "text": rec_label},
                     {
-                        "id": "btn-mwh",
+                        "id": "btn-alt",
                         "component": "Button",
-                        "child": "lbl-mwh",
+                        "child": "lbl-alt",
                         "variant": "secondary",
                         "action": {
                             "event": {
@@ -106,7 +90,7 @@ def extraction_confirm_messages(
                             }
                         },
                     },
-                    {"id": "lbl-mwh", "component": "Text", "text": alt_label},
+                    {"id": "lbl-alt", "component": "Text", "text": alt_label},
                 ],
             },
         },
@@ -117,11 +101,10 @@ def extraction_confirm_messages(
                 "path": "/",
                 "value": {
                     "explanation": (
-                        "Vision is 70% sure the Northern Powergrid bill is 184,200 kWh, "
-                        "not 184,200 MWh. Confirming the unit is a material judgment "
-                        "(it moves company tCO2e by more than 5%)."
+                        f"Two readings for {activity} ({rec_unit} vs {alt_unit}) would move "
+                        "company tCO2e by more than 5%. Confirm the unit to keep the close."
                     ),
-                    "confidence_label": f"OCR confidence {confidence:.0%} on electricity_bill.pdf",
+                    "confidence_label": f"Extract confidence {confidence:.0%} on {source}",
                     "line_id": line_id,
                     "run_id": run_id,
                 },

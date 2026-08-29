@@ -1,0 +1,4 @@
+period,scope,category,activity,qty,unit,spend,vendor,notes
+2025-01,1,,diesel,4200,litre,6048,Port Fuels,Harbor fleet
+2025-01,2,,grid electricity,100000,kWh,14500,GridCo,Filled quantity
+2025-01,3,4,road freight,,gbp,92000,North Sea Haul,Spend-based Cat 4

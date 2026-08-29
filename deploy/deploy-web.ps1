@@ -15,6 +15,6 @@ gcloud run deploy $Service `
   --project $Project `
   --allow-unauthenticated `
   --memory 512Mi `
-  --set-env-vars "AGENT_URL=$AgentUrl,NEXT_PUBLIC_COMPANY_ID=northwind-energy"
+  --set-env-vars "AGENT_URL=$AgentUrl"
 
 Write-Host "After web has a URL, redeploy the agent with -WebOrigin <web-url> so CORS is tight."

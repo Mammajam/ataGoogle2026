@@ -7,14 +7,15 @@ GreenChain is a Collaborative Partner for GHG close. An analyst drops mixed evid
 ## Features
 
 - Autonomous draft from a multimodal period pack (CSV + PDF + photo) before any question
-- MCP-compatible ERP and emission-factor tools over a deterministic fixture pack
-- A2UI v0.9 ExtractionConfirm (basic catalog) for the planted kWh/MWh conflict
+- FastMCP HTTP service on the ADK agent's tool list (ERP, factors, persist, memory) — a running HTTP service, not only compatible wrappers
+- A2UI v0.9 ExtractionConfirm from Python (`pipeline/a2ui.py`) for the planted kWh/MWh conflict
 - Company override memory; silent second run with a Policy applied chip
-- Two Cloud Run services (Next.js + Python ADK), Secret Manager-ready, no keys in the repo
+- Three Cloud Run services (Next.js + Python ADK + FastMCP), Secret Manager-ready, no keys in the repo
+- Vertex `gemini-3.5-flash` `generateContent` on Run audit / Confirm when credentials are present; deterministic fallback otherwise
 
 ## Built with
 
-Gemini 3.5 Flash (Vertex AI) · Google ADK · Cloud Run · Firestore (file fallback locally) · FastMCP · Next.js App Router · A2UI v0.9 basic catalog
+Gemini 3.5 Flash (Vertex AI) · Google ADK · Cloud Run · Firestore (file fallback locally) · FastMCP HTTP · Next.js App Router · A2UI v0.9 basic catalog
 
 ## Data
 

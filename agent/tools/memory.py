@@ -5,8 +5,8 @@ import json
 from pipeline.store import get_store
 
 
-def load_company_overrides(company_id: str = "northwind-energy") -> str:
-    """Load remembered audit policy for this company (unit, factor, Scope 2 method)."""
+def load_company_overrides(company_id: str) -> str:
+    """Load remembered audit policy for this company."""
     items = get_store().list_overrides(company_id)
     return json.dumps({"company_id": company_id, "overrides": items, "count": len(items)})
 
@@ -16,9 +16,9 @@ def save_company_override(
     line_id: str,
     field: str,
     value: str,
-    quantity: float | None = None,
-    unit: str | None = None,
-    company_id: str = "northwind-energy",
+    quantity: float | None,
+    unit: str | None,
+    company_id: str,
 ) -> str:
     """Store a widget answer as company policy for the next silent rerun."""
     payload = {

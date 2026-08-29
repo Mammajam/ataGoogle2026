@@ -1,0 +1,48 @@
+period_month,site_id,site_name,ghg_scope,ghg_category,activity_type,activity_name,quantity,unit,spend_gbp,vendor,artifact_hint,notes
+2025-01,leeds-hq,Leeds HQ,1,,mobile_combustion,diesel,980,litre,1372.00,Highland Fuels,erp,Fleet diesel
+2025-02,leeds-hq,Leeds HQ,1,,mobile_combustion,diesel,1020,litre,1428.00,Highland Fuels,erp,Fleet diesel
+2025-03,aberdeen-depot,Aberdeen Depot,1,,mobile_combustion,diesel,1100,litre,1540.00,Highland Fuels,erp,Fleet diesel
+2025-04,leeds-hq,Leeds HQ,1,,mobile_combustion,diesel,950,litre,1330.00,Highland Fuels,erp,Fleet diesel
+2025-05,aberdeen-depot,Aberdeen Depot,1,,mobile_combustion,diesel,1080,litre,1512.00,Highland Fuels,erp,Fleet diesel
+2025-06,leeds-hq,Leeds HQ,1,,mobile_combustion,diesel,1150,litre,1610.00,Highland Fuels,erp,Fleet diesel
+2025-07,leeds-hq,Leeds HQ,1,,mobile_combustion,diesel,990,litre,1386.00,Highland Fuels,erp,Fleet diesel
+2025-08,aberdeen-depot,Aberdeen Depot,1,,mobile_combustion,diesel,1040,litre,1456.00,Highland Fuels,erp,Fleet diesel
+2025-09,leeds-hq,Leeds HQ,1,,mobile_combustion,diesel,1120,litre,1568.00,Highland Fuels,erp,Fleet diesel
+2025-10,aberdeen-depot,Aberdeen Depot,1,,mobile_combustion,diesel,1180,litre,1652.00,Highland Fuels,erp,Fleet diesel
+2025-11,leeds-hq,Leeds HQ,1,,mobile_combustion,diesel,1050,litre,1470.00,Highland Fuels,erp,Fleet diesel
+2025-12,aberdeen-depot,Aberdeen Depot,1,,mobile_combustion,diesel,1240,litre,1736.00,Highland Fuels,diesel_receipt.jpg,Year-end bulk delivery; photo attached
+2025-01,leeds-hq,Leeds HQ,2,,purchased_electricity,electricity,,,684.00,Northern Powergrid,electricity_bill.pdf,Quantity not in ERP — see annual bill
+2025-02,leeds-hq,Leeds HQ,2,,purchased_electricity,electricity,,,702.00,Northern Powergrid,electricity_bill.pdf,Quantity not in ERP — see annual bill
+2025-03,leeds-hq,Leeds HQ,2,,purchased_electricity,electricity,,,691.00,Northern Powergrid,electricity_bill.pdf,Quantity not in ERP — see annual bill
+2025-04,leeds-hq,Leeds HQ,2,,purchased_electricity,electricity,,,655.00,Northern Powergrid,electricity_bill.pdf,Quantity not in ERP — see annual bill
+2025-05,leeds-hq,Leeds HQ,2,,purchased_electricity,electricity,,,640.00,Northern Powergrid,electricity_bill.pdf,Quantity not in ERP — see annual bill
+2025-06,leeds-hq,Leeds HQ,2,,purchased_electricity,electricity,,,618.00,Northern Powergrid,electricity_bill.pdf,Quantity not in ERP — see annual bill
+2025-07,leeds-hq,Leeds HQ,2,,purchased_electricity,electricity,,,605.00,Northern Powergrid,electricity_bill.pdf,Quantity not in ERP — see annual bill
+2025-08,leeds-hq,Leeds HQ,2,,purchased_electricity,electricity,,,612.00,Northern Powergrid,electricity_bill.pdf,Quantity not in ERP — see annual bill
+2025-09,leeds-hq,Leeds HQ,2,,purchased_electricity,electricity,,,633.00,Northern Powergrid,electricity_bill.pdf,Quantity not in ERP — see annual bill
+2025-10,leeds-hq,Leeds HQ,2,,purchased_electricity,electricity,,,671.00,Northern Powergrid,electricity_bill.pdf,Quantity not in ERP — see annual bill
+2025-11,leeds-hq,Leeds HQ,2,,purchased_electricity,electricity,,,698.00,Northern Powergrid,electricity_bill.pdf,Quantity not in ERP — see annual bill
+2025-12,leeds-hq,Leeds HQ,2,,purchased_electricity,electricity,,,711.00,Northern Powergrid,electricity_bill.pdf,Quantity not in ERP — see annual bill
+2025-01,leeds-hq,Leeds HQ,3,1,purchased_goods,steel_components,,,11800.00,Sheffield Alloys,erp,Quantity blank — spend-based
+2025-02,leeds-hq,Leeds HQ,3,1,purchased_goods,steel_components,,,10900.00,Sheffield Alloys,erp,Quantity blank — spend-based
+2025-03,aberdeen-depot,Aberdeen Depot,3,1,purchased_goods,steel_components,,,13200.00,Sheffield Alloys,erp,Quantity blank — spend-based
+2025-04,leeds-hq,Leeds HQ,3,1,purchased_goods,steel_components,,,9800.00,Sheffield Alloys,erp,Quantity blank — spend-based
+2025-05,leeds-hq,Leeds HQ,3,1,purchased_goods,steel_components,,,12100.00,Sheffield Alloys,erp,Quantity blank — spend-based
+2025-06,aberdeen-depot,Aberdeen Depot,3,1,purchased_goods,steel_components,,,14000.00,Sheffield Alloys,erp,Quantity blank — spend-based
+2025-07,leeds-hq,Leeds HQ,3,1,purchased_goods,steel_components,,,10200.00,Sheffield Alloys,erp,Quantity blank — spend-based
+2025-08,leeds-hq,Leeds HQ,3,1,purchased_goods,steel_components,,,11500.00,Sheffield Alloys,erp,Quantity blank — spend-based
+2025-09,aberdeen-depot,Aberdeen Depot,3,1,purchased_goods,steel_components,,,12800.00,Sheffield Alloys,erp,Quantity blank — spend-based
+2025-10,leeds-hq,Leeds HQ,3,1,purchased_goods,steel_components,,,13400.00,Sheffield Alloys,erp,Quantity blank — spend-based
+2025-11,leeds-hq,Leeds HQ,3,1,purchased_goods,steel_components,,,11100.00,Sheffield Alloys,erp,Quantity blank — spend-based
+2025-12,aberdeen-depot,Aberdeen Depot,3,1,purchased_goods,steel_components,,,14200.00,Sheffield Alloys,erp,Quantity blank — spend-based
+2025-03,aberdeen-depot,Aberdeen Depot,3,1,purchased_goods,industrial_lubricants,,,4600.00,Castrol Industrial,erp,Quantity blank — spend-based
+2025-06,leeds-hq,Leeds HQ,3,1,purchased_goods,industrial_lubricants,,,5100.00,Castrol Industrial,erp,Quantity blank — spend-based
+2025-09,aberdeen-depot,Aberdeen Depot,3,1,purchased_goods,industrial_lubricants,,,4300.00,Castrol Industrial,erp,Quantity blank — spend-based
+2025-12,leeds-hq,Leeds HQ,3,1,purchased_goods,industrial_lubricants,,,4400.00,Castrol Industrial,erp,Quantity blank — spend-based
+2025-02,leeds-hq,Leeds HQ,3,1,purchased_goods,electrical_cables,,,12800.00,Prysmian UK,erp,Quantity blank — spend-based
+2025-05,aberdeen-depot,Aberdeen Depot,3,1,purchased_goods,electrical_cables,,,14100.00,Prysmian UK,erp,Quantity blank — spend-based
+2025-08,leeds-hq,Leeds HQ,3,1,purchased_goods,electrical_cables,,,11900.00,Prysmian UK,erp,Quantity blank — spend-based
+2025-11,aberdeen-depot,Aberdeen Depot,3,1,purchased_goods,electrical_cables,,,13200.00,Prysmian UK,erp,Quantity blank — spend-based
+2025-04,leeds-hq,Leeds HQ,3,1,purchased_goods,office_supplies,,,1600.00,Lyreco,erp,Immaterial; assume spend-based
+2025-08,leeds-hq,Leeds HQ,3,1,purchased_goods,office_supplies,,,2100.00,Lyreco,erp,Immaterial; assume spend-based
+2025-12,leeds-hq,Leeds HQ,3,1,purchased_goods,office_supplies,,,2500.00,Lyreco,erp,Immaterial; assume spend-based
