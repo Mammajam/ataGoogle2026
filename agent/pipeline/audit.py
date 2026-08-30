@@ -6,6 +6,7 @@ from datetime import datetime, timezone
 from typing import Any
 
 from pipeline import a2ui
+from pipeline.gemini import model_id
 from pipeline.activity_map import map_activity
 from pipeline.csv_parse import parse_run_tabular
 from pipeline.factors_provider import get_provider
@@ -584,7 +585,7 @@ def run_audit(
         "policy_keys": list(override_map.keys()),
         "events": events,
         "engine": engine,
-        "model": "gemini-3.5-flash" if engine == "adk" else "deterministic-evidence",
+        "model": model_id() if engine == "adk" else "deterministic-evidence",
         "scopes_populated": sorted({int(line["scope"]) for line in lines if line.get("scope") is not None}),
     }
     draft = attach_material_gate(draft)

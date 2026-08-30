@@ -20,6 +20,7 @@ from pipeline.audit import (
 from pipeline.classify import classify_uploads
 from pipeline.erp_provider import erp_live_configured
 from pipeline.extract import extract_artifacts, vertex_ready
+from pipeline.gemini import model_id, model_label
 from pipeline.store import get_store
 
 APP_NAME = "greenchain"
@@ -137,7 +138,7 @@ def _map_adk_event(event: Any) -> dict[str, str] | None:
         except Exception:
             is_final = False
     if is_final or getattr(event, "partial", False):
-        return _event("model", "Gemini 3.5 Flash generateContent.")
+        return _event("model", f"{model_label()} generateContent.")
     return None
 
 
@@ -190,7 +191,7 @@ async def run_close(
         yield {"step": "draft", "message": "Draft ready.", "draft": draft, "type": "draft"}
         return
 
-    yield _event("model", "Starting Audit Lead on Gemini 3.5 Flash.")
+    yield _event("model", f"Starting Audit Lead on {model_label()}.")
     try:
         draft = None
         async with asyncio.timeout(ADK_TIMEOUT_SEC):
@@ -309,7 +310,7 @@ async def _run_adk(
             evidence_lines,
             artifacts=names,
             events=[
-                {"step": "model", "message": "Gemini 3.5 Flash completed the ADK turn."},
+                {"step": "model", "message": f"{model_label()} completed the ADK turn."},
                 {"step": "tools", "message": "Host assembled lines from this run's evidence."},
             ],
             engine="adk",
@@ -320,7 +321,7 @@ async def _run_adk(
         draft["classified"] = classified
     draft = attach_material_gate(draft or empty_draft(run_id, company_id, names, company))
     draft["engine"] = "adk"
-    draft["model"] = os.environ.get("GEMINI_MODEL") or "gemini-3.5-flash"
+    draft["model"] = model_id()
     store.write_draft(run_id, draft)
     yield {"step": "draft", "message": "Draft ready.", "draft": draft, "type": "draft"}
 

@@ -26,6 +26,7 @@ def _reset(tmp_path, monkeypatch):
     monkeypatch.setenv("GREENCHAIN_DATA", str(tmp_path))
     monkeypatch.setenv("GREENCHAIN_STORE", "file")
     monkeypatch.setenv("GREENCHAIN_FORCE_DETERMINISTIC", "1")
+    monkeypatch.setenv("GEMINI_MODEL", "gemini-3.7-flash")
     monkeypatch.delenv("CLIMATIQ_API_KEY", raising=False)
     monkeypatch.delenv("GREENCHAIN_FACTOR_URL", raising=False)
     monkeypatch.delenv("GREENCHAIN_ERP_URL", raising=False)
@@ -199,6 +200,7 @@ def test_health_returns_greenchain_payload(tmp_path, monkeypatch):
     assert body["store"]["backend"]
     assert body["factors"]["provider"] in {"fixture", "climatiq", "http"}
     assert body["erp"]["live"] is False
+    assert body["model"] == "gemini-3.7-flash"
 
 
 def test_climatiq_lookup_uses_live_estimate(tmp_path, monkeypatch):

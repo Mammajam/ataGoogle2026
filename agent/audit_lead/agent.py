@@ -4,6 +4,8 @@ from __future__ import annotations
 
 import os
 
+from pipeline.gemini import model_id
+
 INSTRUCTION = """
 You are GreenChain Audit Lead, a compliance orchestrator. You lead a GHG close
 for whichever company and period the host provides — never assume a sample client.
@@ -31,7 +33,7 @@ Rules:
 - If extract JSON is source=unavailable, assemble from tabular evidence only.
 - If an override exists for {activity_key}_unit, apply it and do not set gap_flag.
 - GHG Protocol scopes 1–3 (categories 1–15 as evidenced). Partial inventories are OK.
-- Model is Gemini 3.5 Flash via Vertex. Do not switch to Pro.
+- Model is Gemini 3.7 Flash via Vertex. Do not switch to Pro.
 """
 
 
@@ -83,7 +85,7 @@ try:
     _mcp_tools = mcp_toolset()
     root_agent = Agent(
         name="audit_lead",
-        model=os.environ.get("GEMINI_MODEL") or "gemini-3.5-flash",
+        model=model_id(),
         description="Drafts a GHG inventory from mixed evidence, then asks only at material gaps.",
         instruction=INSTRUCTION.strip(),
         tools=[_mcp_tools] if _mcp_tools is not None else in_process_tools(),

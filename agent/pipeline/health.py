@@ -6,6 +6,7 @@ import os
 from typing import Any
 
 from pipeline.adk_runtime import adk_available, engine_default, mcp_reachable, mcp_url
+from pipeline.gemini import model_id
 from pipeline.erp_provider import erp_live_configured, erp_status
 from pipeline.extract import vertex_ready
 from pipeline.factors_provider import factor_status
@@ -22,7 +23,7 @@ def health_payload() -> dict[str, Any]:
         "ok": True,
         "ready": ready,
         "service": "greenchain-audit-lead",
-        "model": os.environ.get("GEMINI_MODEL") or "gemini-3.5-flash",
+        "model": model_id(),
         "store": store,
         "factors": factors,
         "erp": erp,

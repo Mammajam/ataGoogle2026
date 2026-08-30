@@ -18,7 +18,7 @@ gcloud run deploy greenchain-agent \
   --project "$PROJECT" \
   --allow-unauthenticated \
   --memory 1Gi \
-  --set-env-vars "GOOGLE_GENAI_USE_VERTEXAI=TRUE,GOOGLE_CLOUD_LOCATION=$REGION,GOOGLE_CLOUD_PROJECT=$PROJECT,GEMINI_MODEL=gemini-3.5-flash,GREENCHAIN_STORE=firestore,GREENCHAIN_FIXTURES=/app/bundled_fixtures,MCP_URL=$MCP_URL"
+  --set-env-vars "GOOGLE_GENAI_USE_VERTEXAI=TRUE,GOOGLE_CLOUD_LOCATION=$REGION,GOOGLE_CLOUD_PROJECT=$PROJECT,GEMINI_MODEL=gemini-3.7-flash,GREENCHAIN_STORE=firestore,GREENCHAIN_FIXTURES=/app/bundled_fixtures,MCP_URL=$MCP_URL"
 
 AGENT_URL="$(gcloud run services describe greenchain-agent --region "$REGION" --project "$PROJECT" --format='value(status.url)')"
 

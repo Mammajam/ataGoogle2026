@@ -24,7 +24,7 @@ load_dotenv(AGENT_DIR / ".env")
 
 os.environ.setdefault("GOOGLE_GENAI_USE_VERTEXAI", "TRUE")
 os.environ.setdefault("GOOGLE_CLOUD_LOCATION", "us-central1")
-os.environ.setdefault("GEMINI_MODEL", "gemini-3.5-flash")
+os.environ.setdefault("GEMINI_MODEL", "gemini-3.7-flash")
 os.environ.setdefault("GREENCHAIN_STORE", "file")
 os.environ.setdefault("MCP_URL", "http://127.0.0.1:8081")
 

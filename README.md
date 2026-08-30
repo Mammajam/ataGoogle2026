@@ -1,6 +1,6 @@
 # GreenChain
 
-Collaborative Partner for GHG close. An analyst names a company and drops mixed evidence (ERP CSV, PDF bill, invoice photo). One ADK orchestrator (`audit_lead`, Gemini 3.5 Flash) drafts an inventory from **this run’s files**, then streams an A2UI widget only when two readings would move company tCO₂e by more than 5%. Confirming a unit is stored as company policy; the next run for that company applies it silently.
+Collaborative Partner for GHG close. An analyst names a company and drops mixed evidence (ERP CSV, PDF bill, invoice photo). One ADK orchestrator (`audit_lead`, Gemini 3.7 Flash) drafts an inventory from **this run’s files**, then streams an A2UI widget only when two readings would move company tCO₂e by more than 5%. Confirming a unit is stored as company policy; the next run for that company applies it silently.
 
 Track: **The Collaborative Partner** · All Things Agentic Hackathon
 
@@ -205,7 +205,7 @@ $env:GOOGLE_CLOUD_PROJECT = "your-gcp-project"
 .\deploy\deploy-all.ps1
 ```
 
-Three services: `greenchain-mcp`, `greenchain-agent` (with `MCP_URL`), then `greenchain-web`. CORS is the web origin. Model ID is `GEMINI_MODEL` (default `gemini-3.5-flash`). Secrets stay in Secret Manager — see `deploy/secrets.md`.
+Three services: `greenchain-mcp`, `greenchain-agent` (with `MCP_URL`), then `greenchain-web`. CORS is the web origin. Model ID is `GEMINI_MODEL` (default `gemini-3.7-flash`). Secrets stay in Secret Manager — see `deploy/secrets.md`.
 
 Set `GREENCHAIN_STORE=firestore` on the agent (the default when `GOOGLE_CLOUD_PROJECT` is a real id). Firestore holds drafts, company profiles, overrides, evidence, and ADK session ids. Run artifacts go to Firebase Storage / GCS (`GREENCHAIN_ARTIFACT_BUCKET`, default `{project}.appspot.com`). Local runs fall back to `agent/data/` if Firestore is unreachable. Client access is denied in `firestore.rules` / `storage.rules` — there is no login; only the agent SDK writes.
 
@@ -218,7 +218,7 @@ Health: `GET http://localhost:8080/health` returns GreenChain diagnostics (`ok`,
 ## Product shape
 
 - One orchestrator: `audit_lead`. No Memory LLM.
-- Gemini 3.5 Flash via Vertex. FastMCP is a running HTTP service; ERP tools read **this run’s** uploaded CSV (`run_id`), not a bundled fixture.
+- Gemini 3.7 Flash via Vertex. FastMCP is a running HTTP service; ERP tools read **this run’s** uploaded CSV (`run_id`), not a bundled fixture.
 - A2UI v0.9 basic catalog only, produced by Python after the agent turn.
 - GHG Protocol Scope 1–3 (categories as evidenced). Partial inventories are valid.
 - Single page: company profile, dropzone, Run audit, inventory table, A2UI surface, memory chip.

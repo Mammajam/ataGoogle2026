@@ -2,7 +2,7 @@
 
 **Track:** The Collaborative Partner
 
-GreenChain is a Collaborative Partner for GHG close. An analyst drops mixed evidence (ERP CSV, PDF bills, invoice photos). Gemini 3.5 Flash on ADK drafts a complete inventory in the background via MCP factor/ERP tools, then streams A2UI widgets only for material judgments. Overrides are stored in Firestore so the next period follows this company’s audit style without re-asking.
+GreenChain is a Collaborative Partner for GHG close. An analyst drops mixed evidence (ERP CSV, PDF bills, invoice photos). Gemini 3.7 Flash on ADK drafts a complete inventory in the background via MCP factor/ERP tools, then streams A2UI widgets only for material judgments. Overrides are stored in Firestore so the next period follows this company’s audit style without re-asking.
 
 ## Features
 
@@ -11,11 +11,11 @@ GreenChain is a Collaborative Partner for GHG close. An analyst drops mixed evid
 - A2UI v0.9 ExtractionConfirm from Python (`pipeline/a2ui.py`) for the planted kWh/MWh conflict
 - Company override memory; silent second run with a Policy applied chip
 - Three Cloud Run services (Next.js + Python ADK + FastMCP), Secret Manager-ready, no keys in the repo
-- Vertex `gemini-3.5-flash` `generateContent` on Run audit / Confirm when credentials are present; deterministic fallback otherwise
+- Vertex `gemini-3.7-flash` `generateContent` on Run audit / Confirm when credentials are present; deterministic fallback otherwise
 
 ## Built with
 
-Gemini 3.5 Flash (Vertex AI) · Google ADK · Cloud Run · Firestore (file fallback locally) · FastMCP HTTP · Next.js App Router · A2UI v0.9 basic catalog
+Gemini 3.7 Flash (Vertex AI) · Google ADK · Cloud Run · Firestore (file fallback locally) · FastMCP HTTP · Next.js App Router · A2UI v0.9 basic catalog
 
 ## Data
 

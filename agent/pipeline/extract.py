@@ -7,6 +7,8 @@ import os
 from dataclasses import dataclass, field
 from typing import Any, Protocol
 
+from pipeline.gemini import model_id
+
 CONFIDENCE_FLOOR = 0.75
 
 
@@ -86,7 +88,7 @@ class VertexVisionExtractor:
 
         project = os.environ.get("GOOGLE_CLOUD_PROJECT") or ""
         location = os.environ.get("GOOGLE_CLOUD_LOCATION") or "us-central1"
-        model = os.environ.get("GEMINI_MODEL") or "gemini-3.5-flash"
+        model = model_id()
         client = genai.Client(vertexai=True, project=project, location=location)
 
         parts: list[Any] = [

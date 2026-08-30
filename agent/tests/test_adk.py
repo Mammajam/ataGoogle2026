@@ -48,6 +48,19 @@ def test_agent_prefers_mcp_toolset_over_in_process_inventory():
     assert "run_audit(" not in inspect.getsource(agent_mod.in_process_tools)
 
 
+def test_default_model_is_gemini_37_flash():
+    from pipeline.gemini import DEFAULT_MODEL, model_id
+
+    assert DEFAULT_MODEL == "gemini-3.7-flash"
+    previous = os.environ.get("GEMINI_MODEL")
+    os.environ.pop("GEMINI_MODEL", None)
+    try:
+        assert model_id() == "gemini-3.7-flash"
+    finally:
+        if previous is not None:
+            os.environ["GEMINI_MODEL"] = previous
+
+
 if __name__ == "__main__":
     class Dummy:
         def setenv(self, key, value):
@@ -71,3 +84,5 @@ if __name__ == "__main__":
     print("ok: mcp down forces deterministic")
     test_agent_prefers_mcp_toolset_over_in_process_inventory()
     print("ok: mcp toolset preferred")
+    test_default_model_is_gemini_37_flash()
+    print("ok: default gemini-3.7-flash")

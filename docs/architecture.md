@@ -41,7 +41,7 @@ ANALYST WORKSPACE  (Next.js / React on Cloud Run)
 └────────────────────────────┴─────────────────────────────────┘
                │  HTTP + SSE job log
                ▼
-AUDIT LEAD  —  Gemini 3.5 Flash  —  Google ADK  —  Cloud Run
+AUDIT LEAD  —  Gemini 3.7 Flash  —  Google ADK  —  Cloud Run
        │
        │  1. Native PDF/JPEG parts on the ADK session
        │  2. MCPToolset → FastMCP HTTP primitives

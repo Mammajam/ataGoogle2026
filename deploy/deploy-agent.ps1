@@ -19,7 +19,7 @@ $envArgs = @(
   "GOOGLE_GENAI_USE_VERTEXAI=TRUE",
   "GOOGLE_CLOUD_LOCATION=$Region",
   "GOOGLE_CLOUD_PROJECT=$Project",
-  "GEMINI_MODEL=gemini-3.5-flash",
+  "GEMINI_MODEL=gemini-3.7-flash",
   "GREENCHAIN_STORE=firestore",
   "GREENCHAIN_FIXTURES=/app/bundled_fixtures"
 )
